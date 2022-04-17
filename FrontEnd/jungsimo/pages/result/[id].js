@@ -1,65 +1,176 @@
 import Layout from "../layout";
 import sample1 from "../../assets/images/sample1.png";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import {
+	product,
+	chartBig,
+	chartSmall,
+	chartAvg,
+	labels as chartLabel,
+} from "../../public/sampleData";
+import React from "react";
+import {
+	Chart as ChartJS,
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+	Tooltip,
+	Legend,
+} from "chart.js";
 import { Line } from "react-chartjs-2";
-import Chart from "chart.js/auto";
 
 const ResultShow = () => {
+	ChartJS.register(
+		CategoryScale,
+		LinearScale,
+		PointElement,
+		LineElement,
+		Title,
+		Tooltip,
+		Legend
+	);
+
+	const options = {
+		responsive: true,
+		interaction: {
+			mode: "index",
+			intersect: false,
+		},
+		stacked: false,
+		plugins: {
+			title: {
+				display: true,
+				text: "Chart.js Line Chart - Multi Axis",
+			},
+		},
+		scales: {
+			y: {
+				type: "linear",
+				display: true,
+				position: "left",
+			},
+			y1: {
+				type: "linear",
+				display: true,
+				position: "right",
+				grid: {
+					drawOnChartArea: false,
+				},
+			},
+		},
+	};
+
+	const labels = chartLabel;
+
 	const data = {
-		labels: ["January", "February", "March", "April", "May", "June", "July"],
+		labels,
 		datasets: [
 			{
-				label: "My First dataset",
-				fill: false,
-				lineTension: 0.1,
-				backgroundColor: "rgba(75,192,192,0.4)",
-				borderColor: "rgba(75,192,192,1)",
-				borderCapStyle: "butt",
-				borderDash: [],
-				borderDashOffset: 0.0,
-				borderJoinStyle: "miter",
-				pointBorderColor: "rgba(75,192,192,1)",
-				pointBackgroundColor: "#fff",
-				pointBorderWidth: 1,
-				pointHoverRadius: 5,
-				pointHoverBackgroundColor: "rgba(75,192,192,1)",
-				pointHoverBorderColor: "rgba(220,220,220,1)",
-				pointHoverBorderWidth: 2,
-				pointRadius: 1,
-				pointHitRadius: 10,
-				data: [65, 59, 80, 81, 56, 55, 40],
+				label: "최고가",
+				data: chartBig?.chartY,
+				borderColor: "rgb(255, 99, 132)",
+				backgroundColor: "#323ea8",
+				yAxisID: "y",
+			},
+			{
+				label: "평균가",
+				data: chartAvg?.chartY,
+				borderColor: "rgb(255, 99, 132)",
+				backgroundColor: "#32a84a",
+				yAxisID: "y",
+			},
+			{
+				label: "최저가",
+				data: chartSmall?.chartY,
+				borderColor: "rgb(255, 99, 132)",
+				backgroundColor: "#ebde31",
+				yAxisID: "y",
 			},
 		],
 	};
 
 	return (
 		<Layout>
-			<div className="flex mt-[30px]">
+			<div className="flex mt-[30px] px-[15px]">
 				<div className="flex flex-col shrink-0">
-					<span className="text-xl font-bold">LG그램</span>
+					<span className="text-xl font-bold">{product?.name}</span>
 					<Image src={sample1} className="w-[128px] h-[128px]" />
 				</div>
-				<Swiper
-					spaceBetween={50}
-					slidesPerView={1}
-					className="border border-[#E7E8E8] w-full"
-				>
-					<SwiperSlide>Slide1</SwiperSlide>
-					<SwiperSlide>Slide2</SwiperSlide>
-					<SwiperSlide>Slide3</SwiperSlide>
-					<SwiperSlide>Slide4</SwiperSlide>
-				</Swiper>
+				<div className="flex flex-col justify-center ml-4 text-sm">
+					{product?.detail?.hdd !== "" && (
+						<div className="flex">
+							<span>HDD:&nbsp;</span>
+							<span>{product?.detail?.hdd}</span>
+						</div>
+					)}
+					{product?.detail?.ram !== "" && (
+						<div className="flex">
+							<span>RAM:&nbsp;</span>
+							<span>{product?.detail?.ram}</span>
+						</div>
+					)}
+				</div>
+			</div>
+			<Line options={options} data={data} />
+			<div className="flex flex-col px-[15px] mt-8">
+				<span className="text-sm font-bold">최고가격</span>
+				<div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
+        <div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
+        <div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
 			</div>
 
-			<Line
-				className=""
-				data={data}
-				width={400}
-				height={400}
-				options={{ layout: { padding: 15 } }}
-			/>
+      <div className="flex flex-col px-[15px] mt-8">
+				<span className="text-sm font-bold">평균가격</span>
+				<div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
+        <div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
+        <div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
+			</div>
+
+      <div className="flex flex-col px-[15px] mt-8">
+				<span className="text-sm font-bold">최저가격</span>
+				<div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
+        <div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
+        <div className="flex mt-2 text-sm">
+					<span className="w-[20vw] shrink-0">50,000</span>
+					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+				</div>
+			</div>
 		</Layout>
 	);
 };

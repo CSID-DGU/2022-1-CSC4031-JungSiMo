@@ -27,7 +27,7 @@ const Home = () => {
 	return (
 		<Layout>
 			{/* 지금뜨는키워드 */}
-			<div className="flex flex-col mx-[15px] mt-[60px]">
+			<div className="flex flex-col px-[15px] mt-[60px]">
 				<span className="text-sm mt-[20px]">#지금_뜨는_키워드</span>
 				<div className="grid grid-cols-4 gap-[7px] mt-4">
 					{mostKeywords?.map((keyword) => {

@@ -17,24 +17,55 @@ const category1 = {
 };
 
 const category2 = [
-	{ key: 1, name: "갤럭시 S22 플러스", detail: { hdd: "256GB", ram: "" } },
-	{ key: 2, name: "갤럭시 S22 울트라", detail: { hdd: "1TB", ram: "" } },
-	{ key: 3, name: "갤럭시 S22 울트라", detail: { hdd: "512GB", ram: "" } },
-	{ key: 4, name: "갤럭시 S22 울트라", detail: { hdd: "256GB", ram: "" } },
-	{ key: 5, name: "갤럭시 S22", detail: { hdd: "256GB", ram: "" } },
-	{ key: 6, name: "갤럭시 S21 플러스", detail: { hdd: "256GB", ram: "" } },
-	{ key: 7, name: "갤럭시 S21 울트라", detail: { hdd: "512GB", ram: "" } },
-	{ key: 8, name: "갤럭시 S21 울트라", detail: { hdd: "256GB", ram: "" } },
-	{ key: 9, name: "갤럭시 S21", detail: { hdd: "256GB", ram: "" } },
+	{ id: 2, name: "갤럭시 S22 울트라", detail: { hdd: "1TB", ram: "" } },
+	{ id: 3, name: "갤럭시 S22 울트라", detail: { hdd: "512GB", ram: "" } },
+	{ id: 4, name: "갤럭시 S22 울트라", detail: { hdd: "256GB", ram: "" } },
+	{ id: 5, name: "갤럭시 S22", detail: { hdd: "256GB", ram: "" } },
+	{ id: 6, name: "갤럭시 S21 플러스", detail: { hdd: "256GB", ram: "" } },
+	{ id: 7, name: "갤럭시 S21 울트라", detail: { hdd: "512GB", ram: "" } },
+	{ id: 8, name: "갤럭시 S21 울트라", detail: { hdd: "256GB", ram: "" } },
+	{ id: 9, name: "갤럭시 S21", detail: { hdd: "256GB", ram: "" } },
 	{
-		key: 10,
+		id: 10,
 		name: "갤럭시 S20 플러스 BTS 에디션",
 		detail: { hdd: "256GB", ram: "" },
 	},
-	{ key: 11, name: "갤럭시 S20 플러스", detail: { hdd: "256GB", ram: "" } },
-	{ key: 12, name: "갤럭시 Z 폴드2", detail: { hdd: "256GB", ram: "" } },
-	{ key: 13, name: "갤럭시 Z 폴드3", detail: { hdd: "256GB", ram: "" } },
-	{ key: 14, name: "갤럭시 Z 폴드3", detail: { hdd: "512GB", ram: "" } },
+	{ id: 11, name: "갤럭시 S20 플러스", detail: { hdd: "256GB", ram: "" } },
+	{ id: 12, name: "갤럭시 Z 폴드2", detail: { hdd: "256GB", ram: "" } },
+	{ id: 13, name: "갤럭시 Z 폴드3", detail: { hdd: "256GB", ram: "" } },
+	{ id: 14, name: "갤럭시 Z 폴드3", detail: { hdd: "512GB", ram: "" } },
 ];
 
-export { category1, category2, mostKeywords };
+const product = {
+	id: 1,
+	name: "갤럭시 S22 플러스",
+	detail: { hdd: "256GB", ram: "" },
+};
+
+const labels = ["1월", "2월", "3월", "4월", "5월"];
+
+const chartBig = {
+	chartX: labels,
+	chartY: [770000, 765400, 750000, 775000, 770000, 775300],
+};
+
+const chartSmall = {
+	chartX: labels,
+	chartY: [750000, 745400, 730000, 755000, 750000, 755300],
+};
+
+const chartAvg = {
+	chartX: labels,
+	chartY: [760000, 755400, 740000, 765000, 760000, 765300],
+};
+
+export {
+	category1,
+	category2,
+	mostKeywords,
+	product,
+	chartBig,
+	chartSmall,
+	chartAvg,
+	labels,
+};
