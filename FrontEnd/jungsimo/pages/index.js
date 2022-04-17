@@ -2,6 +2,9 @@ import Layout from "./layout";
 import arrowB from "../assets/icons/arrow_bottom.svg";
 import Image from "next/image";
 import { useState } from "react";
+import { mostKeywords, category1 } from "../public/sampleData";
+import { keys } from "lodash";
+import { useEffect } from "react";
 
 const Home = () => {
 	const [isSelectOpen1, setIsSelectOpen1] = useState(false);
@@ -17,36 +20,23 @@ const Home = () => {
 		setName2(e.currentTarget.textContent);
 	};
 
+	useEffect(() => {
+		setName2("브랜드를 선택하세요");
+	}, [name1]);
+
 	return (
 		<Layout>
 			{/* 지금뜨는키워드 */}
 			<div className="flex flex-col mx-[15px] mt-[60px]">
 				<span className="text-sm mt-[20px]">#지금_뜨는_키워드</span>
 				<div className="grid grid-cols-4 gap-[7px] mt-4">
-					<span className="text-white bg-blue-500 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-						냉장고
-					</span>
-					<span className="text-white bg-blue-500 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-						냉장고
-					</span>
-					<span className="text-white bg-blue-500 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-						냉장고
-					</span>
-					<span className="text-white bg-blue-500 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-						냉장고
-					</span>
-					<span className="text-white bg-blue-500 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-						냉장고
-					</span>
-					<span className="text-white bg-blue-500 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-						냉장고
-					</span>
-					<span className="text-white bg-blue-500 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-						냉장고
-					</span>
-					<span className="text-white bg-blue-500 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-						냉장고
-					</span>
+					{mostKeywords?.map((keyword) => {
+						return (
+							<span className="text-white bg-blue-500 text-sm py-2 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+								{keyword}
+							</span>
+						);
+					})}
 				</div>
 			</div>
 
@@ -63,37 +53,17 @@ const Home = () => {
 					<span className="mr-4">{name1}</span>
 					<Image src={arrowB} alt="셀렉트열기" className="w-[10px] h-[6px]" />
 					{isSelectOpen1 && (
-						<div className="z-[100] absolute flex flex-col h-[300px] overflow-scroll mx-auto top-[43px] border border-gray-400 w-[200px] rounded-br-lg rounded-bl-lg bg-white">
-							<div
-								onClick={(e) => clickSelect1(e)}
-								className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
-							>
-								<span className="mx-auto">스마트폰</span>
-							</div>
-							<div
-								onClick={(e) => clickSelect1(e)}
-								className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
-							>
-								<span className="mx-auto">스마트폰</span>
-							</div>
-							<div
-								onClick={(e) => clickSelect1(e)}
-								className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
-							>
-								<span className="mx-auto">스마트폰</span>
-							</div>
-							<div
-								onClick={(e) => clickSelect1(e)}
-								className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
-							>
-								<span className="mx-auto">스마트폰</span>
-							</div>
-							<div
-								onClick={(e) => clickSelect1(e)}
-								className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
-							>
-								<span className="mx-auto">스마트폰</span>
-							</div>
+						<div className="z-[100] absolute flex flex-col  overflow-scroll mx-auto top-[43px] border border-gray-400 w-[200px] rounded-br-lg rounded-bl-lg bg-white">
+							{keys(category1).map((key) => {
+								return (
+									<div
+										onClick={(e) => clickSelect1(e)}
+										className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
+									>
+										<span className="mx-auto">{key}</span>
+									</div>
+								);
+							})}
 						</div>
 					)}
 				</button>
@@ -102,23 +72,28 @@ const Home = () => {
 			{/* select btn2 */}
 			<div className="relative w-full mt-4">
 				<button
+					disabled={name1 === "제품을 선택하세요"}
 					onClick={() => {
 						setIsSelectOpen2(!isSelectOpen2);
 					}}
 					className={`w-[200px] h-[45px] flex items-center border justify-center border-gray-500 mx-auto relative ${
-						isSelectOpen2 ? "rounded-tr-lg rounded-tl-lg" : "rounded-lg"
-					}`}
+						name1 === "제품을 선택하세요" ? "opacity-30" : ""
+					} ${isSelectOpen2 ? "rounded-tr-lg rounded-tl-lg" : "rounded-lg"}`}
 				>
 					<span className="mr-4">{name2}</span>
 					<Image src={arrowB} alt="셀렉트열기" className="w-[10px] h-[6px]" />
 					{isSelectOpen2 && (
-						<div className="z-[100] absolute flex flex-col h-[300px] overflow-scroll mx-auto top-[43px] border border-gray-400 w-[200px] rounded-br-lg rounded-bl-lg bg-white">
-							<div
-								onClick={(e) => clickSelect2(e)}
-								className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
-							>
-								<span className="mx-auto">삼성</span>
-							</div>
+						<div className="z-[100] absolute flex flex-col overflow-scroll mx-auto top-[43px] border border-gray-400 w-[200px] rounded-br-lg rounded-bl-lg bg-white">
+							{category1?.[name1]?.map((name) => {
+								return (
+									<div
+										onClick={(e) => clickSelect2(e)}
+										className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
+									>
+										<span className="mx-auto">{name}</span>
+									</div>
+								);
+							})}
 						</div>
 					)}
 				</button>
