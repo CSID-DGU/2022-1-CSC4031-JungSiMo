@@ -1,10 +1,11 @@
 import Layout from "../layout";
+import { category2 } from "../../public/sampleData";
 
 const SearchShow = () => {
 	return (
 		<Layout>
 			<div className="flex flex-col mt-[60px]">
-				<span className="mx-[15px] text-xs">검색 조건 : 품목/ 상품명</span>
+				<span className="mx-[15px] text-xs">검색 조건 : 휴대폰/ 삼성전자</span>
 				<div className="flex h-[45px] mt-[5px]">
 					<input
 						type="text"
@@ -23,40 +24,29 @@ const SearchShow = () => {
 						<thead className="h-[45px]">
 							<tr className="text-white bg-blue-500">
 								<td className="text-left pl-[15px]">이름</td>
-								<td className="text-left">상세스펙</td>
+								<td className="text-left">HDD</td>
+								<td className="text-left">RAM</td>
 							</tr>
 						</thead>
 						<tbody>
-							<tr className="border-b border-[#AAAAAA] h-[45px]">
-								<td className="pl-[15px] w-[25%] overflow-auto">The Sliding</td>
-								<td className="w-[75%] overflow-x-auto">
-									Malcolm Lockyer Lorem ipsum dolor sit amet consectetur
-									adipisicing elit. Ipsam, esse veniam? Veniam exercitationem
-									aspernatur adipisci quaerat, quia velit, nostrum officia
-									temporibus tempore et dicta, nesciunt quos atque sunt
-									inventore reiciendis.
-								</td>
-							</tr>
-              <tr className="border-b border-[#AAAAAA] h-[45px]">
-								<td className="pl-[15px] w-[25%] overflow-auto">The Sliding</td>
-								<td className="w-[75%] overflow-x-auto">
-									Malcolm Lockyer Lorem ipsum dolor sit amet consectetur
-									adipisicing elit. Ipsam, esse veniam? Veniam exercitationem
-									aspernatur adipisci quaerat, quia velit, nostrum officia
-									temporibus tempore et dicta, nesciunt quos atque sunt
-									inventore reiciendis.
-								</td>
-							</tr>
-              <tr className="border-b border-[#AAAAAA] h-[45px]">
-								<td className="pl-[15px] w-[25%] overflow-auto">The Sliding</td>
-								<td className="w-[75%] overflow-x-auto">
-									Malcolm Lockyer Lorem ipsum dolor sit amet consectetur
-									adipisicing elit. Ipsam, esse veniam? Veniam exercitationem
-									aspernatur adipisci quaerat, quia velit, nostrum officia
-									temporibus tempore et dicta, nesciunt quos atque sunt
-									inventore reiciendis.
-								</td>
-							</tr>
+							{category2?.map((item) => {
+								return (
+									<tr
+										className="border-b border-[#AAAAAA] h-[45px]"
+										key={item?.id}
+									>
+										<td className="pl-[15px] w-[50%] overflow-auto">
+											{item?.name}
+										</td>
+										<td className="w-[25%] overflow-x-auto">
+											{item?.detail?.hdd}
+										</td>
+										<td className="w-[25%] overflow-x-auto">
+											{item?.detail?.ram}
+										</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
 				</div>

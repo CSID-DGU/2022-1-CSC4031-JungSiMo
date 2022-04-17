@@ -36,7 +36,7 @@ const ResultShow = () => {
 
 	return (
 		<Layout>
-			<div className="mx-[15px] flex mt-[30px]">
+			<div className="flex mt-[30px]">
 				<div className="flex flex-col shrink-0">
 					<span className="text-xl font-bold">LG그램</span>
 					<Image src={sample1} className="w-[128px] h-[128px]" />

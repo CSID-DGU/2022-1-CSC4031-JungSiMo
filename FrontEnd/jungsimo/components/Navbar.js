@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Navbar = () => {
 	return (
-		<div className="h-[52px] w-full flex mx-[15px] pt-[1vh]">
+		<div className="h-[52px] w-full flex px-[15px] pt-[1vh]">
 			<Image src={logo} alt="로고" className="" />
 		</div>
 	);
