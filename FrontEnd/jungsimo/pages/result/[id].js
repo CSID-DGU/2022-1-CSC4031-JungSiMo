@@ -21,6 +21,7 @@ import {
 	Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import Link from "next/link";
 
 const ResultShow = () => {
 	ChartJS.register(
@@ -117,57 +118,59 @@ const ResultShow = () => {
 			<Line options={options} data={data} />
 			<div className="flex flex-col px-[15px] mt-8">
 				<span className="text-sm font-bold">최고가격</span>
+				<Link href="https://www.daangn.com/articles/387422498">
+					<div className="flex mt-2 text-sm">
+						<span className="w-[20%] shrink-0">50,000</span>
+						<span className="w-[20%] shirnk-0">당근마켓</span>
+						<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+					</div>
+				</Link>
 				<div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="w-[20%] shrink-0">50,000</span>
+					<span className="w-[20%] shirnk-0">당근마켓</span>
 					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
 				</div>
-        <div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-        <div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
+				<div className="flex mt-2 text-sm">
+					<span className="w-[20%] shrink-0">50,000</span>
+					<span className="w-[20%] shirnk-0">당근마켓</span>
 					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
 				</div>
 			</div>
 
-      <div className="flex flex-col px-[15px] mt-8">
+			<div className="flex flex-col px-[15px] mt-8">
 				<span className="text-sm font-bold">평균가격</span>
 				<div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="w-[20%] shrink-0">50,000</span>
+					<span className="w-[20%] shirnk-0">당근마켓</span>
 					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
 				</div>
-        <div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
+				<div className="flex mt-2 text-sm">
+					<span className="w-[20%] shrink-0">50,000</span>
+					<span className="w-[20%] shirnk-0">당근마켓</span>
 					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
 				</div>
-        <div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
+				<div className="flex mt-2 text-sm">
+					<span className="w-[20%] shrink-0">50,000</span>
+					<span className="w-[20%] shirnk-0">당근마켓</span>
 					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
 				</div>
 			</div>
 
-      <div className="flex flex-col px-[15px] mt-8">
+			<div className="flex flex-col px-[15px] mt-8">
 				<span className="text-sm font-bold">최저가격</span>
 				<div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
+					<span className="w-[20%] shrink-0">50,000</span>
+					<span className="w-[20%] shirnk-0">당근마켓</span>
 					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
 				</div>
-        <div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
+				<div className="flex mt-2 text-sm">
+					<span className="w-[20%] shrink-0">50,000</span>
+					<span className="w-[20%] shirnk-0">당근마켓</span>
 					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
 				</div>
-        <div className="flex mt-2 text-sm">
-					<span className="w-[20vw] shrink-0">50,000</span>
-					<span className="w-[20vw] shirnk-0">당근마켓</span>
+				<div className="flex mt-2 text-sm">
+					<span className="w-[20%] shrink-0">50,000</span>
+					<span className="w-[20%] shirnk-0">당근마켓</span>
 					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
 				</div>
 			</div>

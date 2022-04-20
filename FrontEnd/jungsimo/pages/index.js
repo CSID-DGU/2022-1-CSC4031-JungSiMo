@@ -5,6 +5,7 @@ import { useState } from "react";
 import { mostKeywords, category1 } from "../public/sampleData";
 import { keys } from "lodash";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const Home = () => {
 	const [isSelectOpen1, setIsSelectOpen1] = useState(false);
@@ -100,9 +101,12 @@ const Home = () => {
 			</div>
 
 			{/* submit btn */}
-			<button className="rounded-lg bg-blue-500 text-white flex items-center justify-center w-[200px] h-[45px] mt-4 mx-auto">
-				탐색
-			</button>
+      {/* 임시 링크 */}
+			<Link href="/search/1">
+				<button className="rounded-lg bg-blue-500 text-white flex items-center justify-center w-[200px] h-[45px] mt-4 mx-auto">
+					탐색
+				</button>
+			</Link>
 		</Layout>
 	);
 };

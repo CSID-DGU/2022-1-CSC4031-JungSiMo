@@ -1,5 +1,6 @@
 import Layout from "../layout";
 import { category2 } from "../../public/sampleData";
+import Link from "next/link";
 
 const SearchShow = () => {
 	return (
@@ -31,20 +32,22 @@ const SearchShow = () => {
 						<tbody>
 							{category2?.map((item) => {
 								return (
-									<tr
-										className="border-b border-[#AAAAAA] h-[45px]"
-										key={item?.id}
-									>
-										<td className="pl-[15px] w-[50%] overflow-auto">
-											{item?.name}
-										</td>
-										<td className="w-[25%] overflow-x-auto">
-											{item?.detail?.hdd}
-										</td>
-										<td className="w-[25%] overflow-x-auto">
-											{item?.detail?.ram}
-										</td>
-									</tr>
+									<Link href="/result/1">
+										<tr
+											className="border-b border-[#AAAAAA] h-[45px] cursor-pointer"
+											key={item?.id}
+										>
+											<td className="pl-[15px] w-[50%] overflow-auto">
+												{item?.name}
+											</td>
+											<td className="w-[25%] overflow-x-auto">
+												{item?.detail?.hdd}
+											</td>
+											<td className="w-[25%] overflow-x-auto">
+												{item?.detail?.ram}
+											</td>
+										</tr>
+									</Link>
 								);
 							})}
 						</tbody>
