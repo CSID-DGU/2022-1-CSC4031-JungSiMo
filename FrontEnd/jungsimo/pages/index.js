@@ -6,6 +6,7 @@ import { mostKeywords, category1 } from "../public/sampleData";
 import { keys } from "lodash";
 import { useEffect } from "react";
 import Link from "next/link";
+import giveCoffee from "../assets/images/give_coffee.svg";
 
 const Home = () => {
 	const [isSelectOpen1, setIsSelectOpen1] = useState(false);
@@ -31,9 +32,13 @@ const Home = () => {
 			<div className="flex flex-col px-[15px] mt-[60px]">
 				<span className="text-sm mt-[20px]">#지금_뜨는_키워드</span>
 				<div className="grid grid-cols-4 gap-[7px] mt-4">
-					{mostKeywords?.map((keyword) => {
+					{mostKeywords?.map((keyword, index) => {
 						return (
-							<span className="text-white bg-blue-500 text-sm py-2 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+							<span
+								className={`text-white  ${
+									index % 2 === 0 ? "bg-blue-500" : "bg-blue-400"
+								} text-sm py-2 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]`}
+							>
 								{keyword}
 							</span>
 						);
@@ -101,12 +106,17 @@ const Home = () => {
 			</div>
 
 			{/* submit btn */}
-      {/* 임시 링크 */}
+			{/* 임시 링크 */}
 			<Link href="/search/1">
 				<button className="rounded-lg bg-blue-500 text-white flex items-center justify-center w-[200px] h-[45px] mt-4 mx-auto">
 					탐색
 				</button>
 			</Link>
+
+			<div className="flex flex-col justify-center w-full mt-[20vh] items-center">
+				<span className="mb-4 text-sm">써써유의 서비스가 마음에 드나요?</span>
+				<Image src={giveCoffee} />
+			</div>
 		</Layout>
 	);
 };
