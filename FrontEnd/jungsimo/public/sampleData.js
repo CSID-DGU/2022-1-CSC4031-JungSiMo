@@ -51,7 +51,7 @@ const chartBig = {
 
 const chartSmall = {
 	chartX: labels,
-	chartY: [750000, 745400, 730000, 755000, 750000, 755300],
+	chartY: [800000, 745400, 724400, 755000, 750000, 755300],
 };
 
 const chartAvg = {

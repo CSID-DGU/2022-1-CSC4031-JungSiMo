@@ -1,5 +1,5 @@
 import Layout from "../layout";
-import sample1 from "../../assets/images/sample1.png";
+import sample1 from "../../assets/images/phone_sample.png";
 import Image from "next/image";
 import "swiper/css";
 import {
@@ -98,7 +98,7 @@ const ResultShow = () => {
 			<div className="flex mt-[30px] px-[15px]">
 				<div className="flex flex-col shrink-0">
 					<span className="text-xl font-bold">{product?.name}</span>
-					<Image src={sample1} className="w-[128px] h-[128px]" />
+					<Image src={sample1} width={128} height={128} />
 				</div>
 				<div className="flex flex-col justify-center ml-4 text-sm">
 					{product?.detail?.hdd !== "" && (
