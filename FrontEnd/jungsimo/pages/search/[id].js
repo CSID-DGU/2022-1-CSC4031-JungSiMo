@@ -15,7 +15,7 @@ const SearchShow = () => {
 					/>
 					<button
 						type="submit"
-						className="flex items-center justify-center text-white bg-blue-500 mr-[15px] shrink-0 rounded-[5px] w-[79px]"
+						className="flex items-center justify-center text-white bg-blue-800 mr-[15px] shrink-0 rounded-[5px] w-[79px]"
 					>
 						검색
 					</button>
@@ -23,7 +23,7 @@ const SearchShow = () => {
 				<div className="mt-[10px] w-full">
 					<table class="table-auto w-full">
 						<thead className="h-[45px]">
-							<tr className="text-white bg-blue-500">
+							<tr className="text-white bg-blue-800">
 								<td className="text-left pl-[15px]">이름</td>
 								<td className="text-left">HDD</td>
 								<td className="text-left">RAM</td>
