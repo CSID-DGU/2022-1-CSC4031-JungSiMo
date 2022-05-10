@@ -1,8 +1,10 @@
 import Layout from "../layout";
 import { category2 } from "../../public/sampleData";
 import Link from "next/link";
+import { useState } from "react";
 
 const SearchShow = () => {
+	const [open, setOpen] = useState(false);
 	return (
 		<Layout>
 			<div className="flex flex-col mt-[60px]">
@@ -16,6 +18,9 @@ const SearchShow = () => {
 					<button
 						type="submit"
 						className="flex items-center justify-center text-white bg-blue-800 mr-[15px] shrink-0 rounded-[5px] w-[79px]"
+						onClick={() => {
+							setOpen(true);
+						}}
 					>
 						검색
 					</button>
@@ -30,26 +35,27 @@ const SearchShow = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{category2?.map((item) => {
-								return (
-									<Link href="/result/1">
-										<tr
-											className="border-b border-[#AAAAAA] h-[45px] cursor-pointer"
-											key={item?.id}
-										>
-											<td className="pl-[15px] w-[50%] overflow-auto">
-												{item?.name}
-											</td>
-											<td className="w-[25%] overflow-x-auto">
-												{item?.detail?.hdd}
-											</td>
-											<td className="w-[25%] overflow-x-auto">
-												{item?.detail?.ram}
-											</td>
-										</tr>
-									</Link>
-								);
-							})}
+							{open &&
+								category2?.map((item) => {
+									return (
+										<Link href="/result/1">
+											<tr
+												className="border-b border-[#AAAAAA] h-[45px] cursor-pointer"
+												key={item?.id}
+											>
+												<td className="pl-[15px] w-[50%] overflow-auto">
+													{item?.name}
+												</td>
+												<td className="w-[25%] overflow-x-auto">
+													{item?.detail?.hdd}
+												</td>
+												<td className="w-[25%] overflow-x-auto">
+													{item?.detail?.ram}
+												</td>
+											</tr>
+										</Link>
+									);
+								})}
 						</tbody>
 					</table>
 				</div>

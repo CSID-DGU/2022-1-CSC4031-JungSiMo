@@ -17,6 +17,7 @@ const category1 = {
 };
 
 const category2 = [
+	{ id: 1, name: "갤럭시 S22 플러스", detail: { hdd: "256GB" } },
 	{ id: 2, name: "갤럭시 S22 울트라", detail: { hdd: "1TB", ram: "" } },
 	{ id: 3, name: "갤럭시 S22 울트라", detail: { hdd: "512GB", ram: "" } },
 	{ id: 4, name: "갤럭시 S22 울트라", detail: { hdd: "256GB", ram: "" } },
