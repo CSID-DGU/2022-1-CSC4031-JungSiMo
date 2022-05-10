@@ -32,4 +32,6 @@ public class ItemInfo implements Serializable {
 
     private String itemTransState;
 
+    private String itemSource;
+
 }
