@@ -43,7 +43,7 @@ public class earphoneDetailInfo implements Serializable {
 
     private String microphoneYnl;
 
-    private long usageTime;
+    private String usageTime;
 
     private String terminal;
 

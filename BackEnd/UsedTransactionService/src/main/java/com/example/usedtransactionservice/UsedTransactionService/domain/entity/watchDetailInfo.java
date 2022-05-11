@@ -39,9 +39,11 @@ public class watchDetailInfo implements Serializable {
 
     private String screenType;
 
+    private String builtInMemory;
+
     private String ram;
 
-    private long usageTime;
+    private String usageTime;
 
     private String charging;
 
