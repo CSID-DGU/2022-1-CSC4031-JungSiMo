@@ -12,7 +12,7 @@ plugins {
 }
 
 group = 'com.example.usedtransactionservice'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1-SNAPSHOT'+ new Date().format("yyyyMMddHHmmss")
 sourceCompatibility = '1.8'
 
 configurations {
