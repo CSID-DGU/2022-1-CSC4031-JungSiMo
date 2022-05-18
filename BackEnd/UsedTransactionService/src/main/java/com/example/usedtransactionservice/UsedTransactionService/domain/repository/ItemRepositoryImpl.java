@@ -7,37 +7,33 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+public class ItemRepositoryImpl extends QuerydslRepositorySupport implements ItemRepositoryForQueryDsl {
 
-@Repository
-//@RequiredArgsConstructor
-public class ItemRepositoryImpl extends QuerydslRepositorySupport {
-
-    @Autowired
-    private JPAQueryFactory queryFactory;
+//    @Autowired
+    private final JPAQueryFactory queryFactory;
 
     QItem item = QItem.item;
 
-    public ItemRepositoryImpl() {
+    public ItemRepositoryImpl(JPAQueryFactory queryFactory) {
         super(Item.class);
+        this.queryFactory = queryFactory;
     }
 
-    // TODO CategoryId 에 해당하는 BrandName 조회
+    // TODO CategoryId 에 해당하는 BrandName 중복 제거 조회
     public List<String> findByCategoryId(Long catId) {
         List<String> itemBrandList = queryFactory
                 .from(item)
                 .select(item.brandName)
                 .where(item.categoryId.eq(catId))
-                .fetch();
+                .distinct().fetch();
 
         return itemBrandList;
     }
@@ -51,7 +47,6 @@ public class ItemRepositoryImpl extends QuerydslRepositorySupport {
                 .fetch();
 
         return itemList;
-
     }
 
     // TODO 검색어 입력을 통한 상품 검색(카테고리, 브랜드 필터링)
@@ -71,6 +66,5 @@ public class ItemRepositoryImpl extends QuerydslRepositorySupport {
         }
         return item.itemName.contains(keyword);
     }
-
 
 }

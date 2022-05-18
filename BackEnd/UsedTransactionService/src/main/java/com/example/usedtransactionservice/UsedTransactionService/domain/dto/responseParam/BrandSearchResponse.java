@@ -1,13 +1,15 @@
 package com.example.usedtransactionservice.UsedTransactionService.domain.dto.responseParam;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
+import java.util.List;
 
-@Getter
+@Data
 @Builder
-public class CategorySearchResponse {
+@Getter
+public class BrandSearchResponse {
 
-    private String categoryName;
-
+    private String brandName;
 }

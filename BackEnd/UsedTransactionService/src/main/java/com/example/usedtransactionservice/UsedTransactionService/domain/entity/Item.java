@@ -10,13 +10,13 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name="item")
-public class Item implements Serializable {
+public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "itemId")
-    private long itemId;
+    private Long itemId;
 
-    private long categoryId;
+    private Long categoryId;
 
     private String itemName;
 

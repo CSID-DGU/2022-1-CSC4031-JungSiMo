@@ -1,13 +1,16 @@
 package com.example.usedtransactionservice.UsedTransactionService.domain.repository;
 
 import com.example.usedtransactionservice.UsedTransactionService.domain.entity.Item;
-import com.querydsl.core.types.Predicate;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface ItemRepository {
+@Repository
+public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositoryForQueryDsl {
 
-    public List<Item> findAll(Predicate predicate, Sort sort);
+    List<Item> findAll();
+
+    List<String> findByCategoryId(Long catId);
 
 }
