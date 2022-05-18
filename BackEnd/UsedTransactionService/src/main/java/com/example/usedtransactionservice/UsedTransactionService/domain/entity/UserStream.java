@@ -16,8 +16,10 @@ public class UserStream {
     @Column(name = "stream_id")
     private Long streamId;
 
+    @Column(name = "user_id")
     private String userId;
 
+    @Column(name = "item_id")
     private Long itemId;
 
 }

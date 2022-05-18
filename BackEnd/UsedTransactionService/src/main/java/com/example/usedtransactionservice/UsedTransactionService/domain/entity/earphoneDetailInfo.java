@@ -23,28 +23,40 @@ public class earphoneDetailInfo implements Serializable {
     @Column(name = "category_id")
     private Long categoryId;
 
+    @Column(name = "item_image")
     private String itemImage;
 
+    @Column(name = "bluetooth_version")
     private String bluetoothVersion;
 
+    @Column(name = "shape")
     private String shape;
 
+    @Column(name = "channel")
     private String channel;
 
+    @Column(name = "purpose")
     private String purpose;
 
+    @Column(name = "sound_quality_first")
     private String soundQualityFirst;
 
+    @Column(name = "sound_quality_second")
     private String soundQualitySecond;
 
+    @Column(name = "operation_func")
     private String operationFunc;
 
+    @Column(name = "waterproof")
     private String waterproof;
 
-    private String microphoneYnl;
+    @Column(name = "microphone_yn")
+    private String microphoneYn;
 
+    @Column(name ="usage_time")
     private String usageTime;
 
+    @Column(name = "terminal")
     private String terminal;
 
 }

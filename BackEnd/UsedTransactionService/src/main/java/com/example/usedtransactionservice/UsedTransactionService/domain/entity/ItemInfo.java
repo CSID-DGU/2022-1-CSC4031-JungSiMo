@@ -21,17 +21,26 @@ public class ItemInfo implements Serializable {
     @Column(name = "item_seq")
     private Long itemSeq;
 
+    @Column(name = "item_date")
     @Temporal(TemporalType.DATE)
     private Date itemDate;
 
+    @Column(name = "item_title")
+    private String itemTitle;
+
+    @Column(name = "item_price")
     private Long itemPrice;
 
+    @Column(name = "item_url")
     private String itemUrl;
 
+    @Column(name = "item_state")
     private String itemState;
 
+    @Column(name = "item_trans_state")
     private String itemTransState;
 
+    @Column(name = "item_source")
     private String itemSource;
 
 }

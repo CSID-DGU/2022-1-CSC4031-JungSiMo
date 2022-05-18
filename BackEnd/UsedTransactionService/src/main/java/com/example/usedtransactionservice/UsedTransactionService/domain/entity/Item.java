@@ -16,10 +16,13 @@ public class Item {
     @Column(name = "item_id")
     private Long itemId;
 
+    @Column(name = "category_id")
     private Long categoryId;
 
+    @Column(name = "item_name")
     private String itemName;
 
-    private String brandName;
+    @Column(name = "item_brand")
+    private String itemBrand;
 
 }
