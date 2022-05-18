@@ -1,4 +1,4 @@
-package com.example.usedtransactionservice.UsedTransactionService.domain.repository;
+package com.example.usedtransactionservice.UsedTransactionService.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,7 @@ import javax.persistence.PersistenceContext;
 @Configuration
 public class QuerydslConfiguration {
 
-//    @Autowired
-//    EntityManager em;
-
-    @Autowired
+    @PersistenceContext
     private EntityManager em;
 
     @Bean
