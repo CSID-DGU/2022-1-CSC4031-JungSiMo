@@ -12,10 +12,10 @@ import java.io.Serializable;
 @Getter @Setter
 @Entity
 @Table(name="user")
-public class User implements Serializable {
+public class User {
 
     @Id
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private String userId;
 
     private String userName;

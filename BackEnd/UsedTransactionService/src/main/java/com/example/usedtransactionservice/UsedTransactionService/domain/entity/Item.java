@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "itemId")
+    @Column(name = "item_id")
     private Long itemId;
 
     private Long categoryId;

@@ -12,16 +12,16 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name="watchDetailInfo")
+@Table(name="watch_detail_info")
 public class watchDetailInfo implements Serializable {
 
     @Id
-    @Column(name = "itemId")
-    private long itemId;
+    @Column(name = "item_id")
+    private Long itemId;
 
     @Id
-    @Column(name = "categoryId")
-    private long categoryId;
+    @Column(name = "category_d")
+    private Long categoryId;
 
     private String itemImage;
 

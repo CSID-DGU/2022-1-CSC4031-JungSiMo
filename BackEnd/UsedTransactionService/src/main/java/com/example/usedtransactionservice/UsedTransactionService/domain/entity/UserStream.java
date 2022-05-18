@@ -9,15 +9,15 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name="userStream")
-public class UserStream implements Serializable {
+@Table(name="user_stream")
+public class UserStream {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "streamId")
-    private long streamId;
+    @Column(name = "stream_id")
+    private Long streamId;
 
-    private long userId;
+    private String userId;
 
-    private long itemId;
+    private Long itemId;
 
 }

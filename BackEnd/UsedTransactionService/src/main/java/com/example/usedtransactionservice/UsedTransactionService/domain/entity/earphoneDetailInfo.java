@@ -12,16 +12,16 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name="earphoneDetailInfo")
+@Table(name="earphone_detail_info")
 public class earphoneDetailInfo implements Serializable {
 
     @Id
-    @Column(name = "itemId")
-    private long itemId;
+    @Column(name = "item_id")
+    private Long itemId;
 
     @Id
-    @Column(name = "categoryId")
-    private long categoryId;
+    @Column(name = "category_id")
+    private Long categoryId;
 
     private String itemImage;
 
