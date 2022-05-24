@@ -17,9 +17,12 @@ const Home = ({ res }) => {
 	const [name2, setName2] = useState("브랜드를 선택하세요");
 
 	useEffect(() => {
-    axios.get("http://localhost:8080/api/v1/search/category").then((response) => {console.log(response)})
-  }, [])
-  
+		axios
+			.get("http://localhost:8080/api/v1/search/category")
+			.then((response) => {
+				console.log(response);
+			});
+	}, []);
 
 	const clickSelect1 = (e) => {
 		setName1(e.currentTarget.textContent);
