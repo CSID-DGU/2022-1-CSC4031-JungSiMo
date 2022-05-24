@@ -7,12 +7,19 @@ import { keys } from "lodash";
 import { useEffect } from "react";
 import Link from "next/link";
 import giveCoffee from "../assets/images/give_coffee.svg";
+import axios from "axios";
+// import { getServerSideProps } from "./api/core";
 
-const Home = () => {
+const Home = ({ res }) => {
 	const [isSelectOpen1, setIsSelectOpen1] = useState(false);
 	const [isSelectOpen2, setIsSelectOpen2] = useState(false);
 	const [name1, setName1] = useState("제품을 선택하세요");
 	const [name2, setName2] = useState("브랜드를 선택하세요");
+
+	useEffect(() => {
+    axios.get("http://localhost:8080/api/v1/search/category").then((response) => {console.log(response)})
+  }, [])
+  
 
 	const clickSelect1 = (e) => {
 		setName1(e.currentTarget.textContent);
