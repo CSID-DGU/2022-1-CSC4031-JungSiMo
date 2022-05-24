@@ -2,6 +2,7 @@ package com.example.usedtransactionservice.domain.repository;
 
 import com.example.usedtransactionservice.domain.dto.responseParam.BrandSearchResponse;
 import com.example.usedtransactionservice.domain.dto.responseParam.BrandSearchResponseInterface;
+import com.example.usedtransactionservice.domain.dto.responseParam.ItemSearchResponse;
 import com.example.usedtransactionservice.domain.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,9 +22,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findByItemName(String itemName);
 
     // categoryName 으로 categoryId 찾고 -> categoryId에 해당하는 itemBrand 중복 제거
-    @Query("select distinct i.itemBrand from Item i group by where i.categoryId = :categoryId")
-    List<BrandSearchResponseInterface> findByCategoryId(@Param("categoryId") Long categoryId);
-//    List<Item> findByCategoryId(Long categoryId);
+//    @Query("select i.itemBrand from Item i group by where i.categoryId = :categoryId")
+//    List<BrandSearchResponseInterface> findByCategoryId(@Param("categoryId") Long categoryId);
+    List<BrandSearchResponseInterface> findByCategoryId(Long categoryId);
 
     List<Item> findByCategoryIdAndItemBrand(Long categoryId, String itemBrand);
 

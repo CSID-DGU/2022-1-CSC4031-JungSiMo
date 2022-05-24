@@ -29,11 +29,7 @@ public class SearchService {
 
     private CategorySearchResponse categorySearchResponse;
     private BrandSearchResponse brandSearchResponse;
-
-//    @Autowired
-//    public SearchService(CategoryRepository categoryRepository) {
-//        this.categoryRepository = categoryRepository;
-//    }
+    private ItemSearchResponse itemSearchResponse;
 
     // 카테고리 조회
     public List<Category> findAll() {
@@ -51,12 +47,13 @@ public class SearchService {
         return brandList;
     }
 
-
     // 상품 리스트 조회
-    public List<ItemSearchResponse> itemSearch(String catName, String brandName) {
+    public List<Item> itemSearch(String catName, String itemBrand) {
+        Optional<Category> category = categoryRepository.findByCategoryName(catName);
+        Long categoryId = category.get().getCategoryId();
+        List<Item> item = itemRepository.findByCategoryIdAndItemBrand(categoryId, itemBrand);
 
-        List<ItemSearchResponse> itemList = new ArrayList<>();
-        return itemList;
+        return item;
     }
 
 }
