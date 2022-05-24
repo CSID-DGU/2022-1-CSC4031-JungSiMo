@@ -2,9 +2,9 @@ package com.example.usedtransactionservice.domain.dto.responseParam;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
-@Getter
+
+@Data
 @Builder
 public class ItemSearchResponse {
 
@@ -14,6 +14,6 @@ public class ItemSearchResponse {
 
     private Long categoryId;
 
-    private String brandName;
+    private String itemBrand;
 
 }
