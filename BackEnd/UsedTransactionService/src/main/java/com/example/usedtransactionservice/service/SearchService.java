@@ -35,6 +35,7 @@ public class SearchService {
     public List<Category> findAll() {
         List<Category> categoryList = new ArrayList<>();
         categoryRepository.findAll().forEach(e -> categoryList.add(e));
+
         return categoryList;
     }
 
@@ -52,6 +53,13 @@ public class SearchService {
         Optional<Category> category = categoryRepository.findByCategoryName(catName);
         Long categoryId = category.get().getCategoryId();
         List<Item> item = itemRepository.findByCategoryIdAndItemBrand(categoryId, itemBrand);
+
+        return item;
+    }
+
+    // 상품 검색
+    public List<Item> itemSearchByKeyword(String keyword) {
+        List<Item> item = itemRepository.findByItemKeyword(keyword);
 
         return item;
     }

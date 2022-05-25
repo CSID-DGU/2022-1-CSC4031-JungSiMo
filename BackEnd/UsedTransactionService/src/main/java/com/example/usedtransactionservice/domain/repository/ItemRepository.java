@@ -28,4 +28,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findByCategoryIdAndItemBrand(Long categoryId, String itemBrand);
 
+    @Query("select i from Item i where i.itemName like %:keyword%")
+    List<Item> findByItemKeyword(@Param("keyword") String keyword);
 }

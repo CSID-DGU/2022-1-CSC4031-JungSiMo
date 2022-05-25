@@ -1,6 +1,7 @@
 package com.example.usedtransactionservice.controller;
 
 import com.example.usedtransactionservice.domain.dto.requestParam.BrandSearchRequest;
+import com.example.usedtransactionservice.domain.dto.requestParam.ItemSearchByKeywordRequest;
 import com.example.usedtransactionservice.domain.dto.requestParam.ItemSearchRequest;
 import com.example.usedtransactionservice.domain.dto.responseParam.BrandSearchResponse;
 import com.example.usedtransactionservice.domain.dto.responseParam.BrandSearchResponseInterface;
@@ -68,6 +69,13 @@ public class SearchController {
     @PostMapping("item")
     public ResponseEntity<List<Item>> itemSearch(@RequestBody ItemSearchRequest itemSearchRequest) {
         List<Item> itemList = searchService.itemSearch(itemSearchRequest.getCategoryName(), itemSearchRequest.getItemBrand());
+        return new ResponseEntity<List<Item>>(itemList, HttpStatus.OK);
+    }
+
+    // TODO 아이템 검색 리스트 조회
+    @PostMapping("item/keyword")
+    public ResponseEntity<List<Item>> itemSearchByKeyword(@RequestBody ItemSearchByKeywordRequest itemSearchByKeywordRequest) {
+        List<Item> itemList = searchService.itemSearchByKeyword(itemSearchByKeywordRequest.getKeyword());
         return new ResponseEntity<List<Item>>(itemList, HttpStatus.OK);
     }
 

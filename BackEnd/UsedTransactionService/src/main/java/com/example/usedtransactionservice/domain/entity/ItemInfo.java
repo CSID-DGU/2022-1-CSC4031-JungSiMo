@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Builder
 @Getter @Setter
@@ -12,13 +13,23 @@ import java.util.Date;
 @AllArgsConstructor
 @Table(name = "item_info")
 @Entity
-public class ItemInfo implements Serializable {
+@IdClass(ItemInfoPK.class)
+public class ItemInfo {
+
+//    @EmbeddedId
+//    private ItemInfoPK itemInfoId;
+//
+//    @MapsId("itemId")
+//    @ManyToOne
+////    @JoinColumn(name = "item_id")
+//    public Item itemId;
 
     @Id
     @Column(name = "item_id")
     private Long itemId;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_seq")
     private Long itemSeq;
 
