@@ -18,4 +18,6 @@ public class QuerydslConfiguration {
     public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(em);   // JPAQueryFactory 빈 주입
     }
+
+
 }
