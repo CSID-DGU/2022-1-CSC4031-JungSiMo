@@ -64,6 +64,7 @@ public class SearchController {
     public ResponseEntity<List<BrandSearchResponseInterface>> brandSearch(@RequestBody BrandSearchRequest brandSearchRequest) {
         List<BrandSearchResponseInterface> brandList = searchService.brandSearch(brandSearchRequest.getCategoryName());
         return new ResponseEntity<List<BrandSearchResponseInterface>> (brandList, HttpStatus.OK);
+
     }
 
     // TODO 아이템 리스트 조회

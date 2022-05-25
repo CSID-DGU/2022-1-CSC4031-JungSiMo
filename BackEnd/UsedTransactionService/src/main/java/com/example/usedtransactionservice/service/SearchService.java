@@ -43,7 +43,7 @@ public class SearchService {
     public List<BrandSearchResponseInterface> brandSearch(String catName) {
         Optional<Category> category = categoryRepository.findByCategoryName(catName);
         Long categoryId = category.get().getCategoryId();
-        List<BrandSearchResponseInterface> brandList = itemRepository.findByCategoryId(categoryId);
+        List<BrandSearchResponseInterface> brandList = itemRepository.findDistinctByCategoryId(categoryId);
 
         return brandList;
     }
@@ -57,11 +57,11 @@ public class SearchService {
         return item;
     }
 
-    // 상품 검색
+    // 상품 검색 -> 상품 리스트 조회 내역 내에서 검색
     public List<Item> itemSearchByKeyword(String keyword) {
-        List<Item> item = itemRepository.findByItemKeyword(keyword);
+        List<Item> keywordItem = itemRepository.findByItemKeyword(keyword);
 
-        return item;
+        return keywordItem;
     }
 
 }
