@@ -17,6 +17,8 @@ const Home = (props) => {
 
 	const { category } = props;
 
+	console.log(category);
+
 	const clickSelect1 = (e) => {
 		console.log(e.currentTarget.textContent);
 		const selectCategoryName = {
