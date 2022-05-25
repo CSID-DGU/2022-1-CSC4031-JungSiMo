@@ -123,7 +123,7 @@ const Home = (props) => {
 			{/* submit btn */}
 			<Link
 				href={{
-					pathname: "/search/1",
+					pathname: "/search",
 					query: { categoryName: name1, itemBrand: name2 },
 				}}
 			>
