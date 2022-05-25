@@ -2,10 +2,7 @@ package com.example.usedtransactionservice.domain.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Builder
@@ -14,13 +11,17 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Table(name="watch_detail_info")
 @Entity
-public class watchDetailInfo implements Serializable {
+@IdClass(DetailInfoPK.class)
+public class WatchDetailInfo {
+
+//    @EmbeddedId
+//    private DetailInfoPK detailInfoPK;
 
     @Id
     @Column(name = "item_id")
     private Long itemId;
 
-    @Id
+//    @Id
     @Column(name = "category_d")
     private Long categoryId;
 
