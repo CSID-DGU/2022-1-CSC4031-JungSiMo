@@ -17,17 +17,15 @@ const Home = (props) => {
 
 	const { category } = props;
 
-	console.log(category);
-
 	const clickSelect1 = (e) => {
-		console.log(e.currentTarget.textContent);
 		const selectCategoryName = {
-			categoryName: "이어폰",
+			categoryName: e.currentTarget.textContent,
 		};
 		axios
 			.post("http://localhost:8080/api/v1/search/brand", selectCategoryName)
 			.then((response) => {
-				console.log(`asdfsad : ${response.data}`);
+				console.log(response);
+				setName1(response.data.itemBrand);
 			});
 	};
 
