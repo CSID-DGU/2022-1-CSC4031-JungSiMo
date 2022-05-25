@@ -16,6 +16,7 @@ const Home = (props) => {
 	const [name2, setName2] = useState("브랜드를 선택하세요");
 
 	const { category } = props;
+	const [categoryDetails, setCategoryDetails] = useState(null);
 
 	const clickSelect1 = (e) => {
 		const selectCategoryName = {
@@ -24,8 +25,8 @@ const Home = (props) => {
 		axios
 			.post("http://localhost:8080/api/v1/search/brand", selectCategoryName)
 			.then((response) => {
-				console.log(response);
-				setName1(response.data.itemBrand);
+				setName1(selectCategoryName.categoryName);
+				setCategoryDetails(response.data);
 			});
 	};
 
@@ -46,6 +47,7 @@ const Home = (props) => {
 					{mostKeywords?.map((keyword, index) => {
 						return (
 							<span
+								key={`지금뜨는키워드${index}`}
 								className={`text-white  ${
 									index % 2 === 0 ? "bg-blue-500" : "bg-blue-400"
 								} text-sm py-2 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]`}
@@ -102,13 +104,14 @@ const Home = (props) => {
 					<Image src={arrowB} alt="셀렉트열기" className="w-[10px] h-[6px]" />
 					{isSelectOpen2 && (
 						<div className="z-[100] absolute flex flex-col overflow-scroll mx-auto top-[43px] border border-gray-400 w-[200px] rounded-br-lg rounded-bl-lg bg-white">
-							{category1?.[name1]?.map((name) => {
+							{categoryDetails?.map((name, index) => {
 								return (
 									<div
+										key={`카테고리상세${index}`}
 										onClick={(e) => clickSelect2(e)}
 										className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
 									>
-										<span className="mx-auto">{name}</span>
+										<span className="mx-auto">{name.itemBrand}</span>
 									</div>
 								);
 							})}
@@ -118,8 +121,12 @@ const Home = (props) => {
 			</div>
 
 			{/* submit btn */}
-			{/* 임시 링크 */}
-			<Link href="/search/1">
+			<Link
+				href={{
+					pathname: "/search/1",
+					query: { categoryName: name1, itemBrand: name2 },
+				}}
+			>
 				<button className="rounded-lg bg-blue-500 text-white flex items-center justify-center w-[200px] h-[45px] mt-4 mx-auto">
 					탐색
 				</button>
