@@ -8,24 +8,25 @@ import { useEffect } from "react";
 import Link from "next/link";
 import giveCoffee from "../assets/images/give_coffee.svg";
 import axios from "axios";
-// import { getServerSideProps } from "./api/core";
 
-const Home = ({ res }) => {
+const Home = (props) => {
 	const [isSelectOpen1, setIsSelectOpen1] = useState(false);
 	const [isSelectOpen2, setIsSelectOpen2] = useState(false);
 	const [name1, setName1] = useState("제품을 선택하세요");
 	const [name2, setName2] = useState("브랜드를 선택하세요");
 
-	useEffect(() => {
-		axios
-			.get("http://localhost:8080/api/v1/search/category")
-			.then((response) => {
-				console.log(response);
-			});
-	}, []);
+	const { category } = props;
 
 	const clickSelect1 = (e) => {
-		setName1(e.currentTarget.textContent);
+		console.log(e.currentTarget.textContent);
+		const selectCategoryName = {
+			categoryName: "이어폰",
+		};
+		axios
+			.post("http://localhost:8080/api/v1/search/brand", selectCategoryName)
+			.then((response) => {
+				console.log(`asdfsad : ${response.data}`);
+			});
 	};
 
 	const clickSelect2 = (e) => {
@@ -70,13 +71,14 @@ const Home = ({ res }) => {
 					<Image src={arrowB} alt="셀렉트열기" className="w-[10px] h-[6px]" />
 					{isSelectOpen1 && (
 						<div className="z-[100] absolute flex flex-col  overflow-scroll mx-auto top-[43px] border border-gray-400 w-[200px] rounded-br-lg rounded-bl-lg bg-white">
-							{keys(category1).map((key) => {
+							{category?.map((cate) => {
 								return (
 									<div
 										onClick={(e) => clickSelect1(e)}
+										key={cate?.categoryId}
 										className="flex items-center justsify-center h-[45px] mx-auto border-b w-full shrink-0"
 									>
-										<span className="mx-auto">{key}</span>
+										<span className="mx-auto">{cate?.categoryName}</span>
 									</div>
 								);
 							})}
@@ -132,3 +134,12 @@ const Home = ({ res }) => {
 };
 
 export default Home;
+
+export async function getServerSideProps() {
+	const fetchingCategory = await fetch(
+		"http://localhost:8080/api/v1/search/category"
+	);
+	const category = await fetchingCategory.json();
+
+	return { props: { category: category } };
+}
