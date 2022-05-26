@@ -3,9 +3,11 @@ package com.example.usedtransactionservice.service;
 
 import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeInfoResponse;
 import com.example.usedtransactionservice.domain.entity.EarphoneDetailInfo;
+import com.example.usedtransactionservice.domain.entity.TabletDetailInfo;
 import com.example.usedtransactionservice.domain.entity.WatchDetailInfo;
 import com.example.usedtransactionservice.domain.repository.EarphoneDetailInfoRepository;
 import com.example.usedtransactionservice.domain.repository.ItemRepository;
+import com.example.usedtransactionservice.domain.repository.TabletDetailInfoRepository;
 import com.example.usedtransactionservice.domain.repository.WatchDetailInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ public class DetailService {
     private final ItemRepository itemRepository;
     private final EarphoneDetailInfoRepository earphoneDetailInfoRepository;
     private final WatchDetailInfoRepository watchDetailInfoRepository;
+    private final TabletDetailInfoRepository tabletDetailInfoRepository;
 
     private ItemPriceChangeInfoResponse itemPriceChangeInfoResponse;
 
@@ -33,6 +36,8 @@ public class DetailService {
         if (categoryId == 1) {   // 노트북
 
         } else if (categoryId == 2) {   // 태블릿
+            Optional<TabletDetailInfo> tabletDetailInfo = tabletDetailInfoRepository.findByItemId(itemId);
+            resultResponseEntity = new ResponseEntity(tabletDetailInfo, HttpStatus.OK);
 
         } else if (categoryId == 3) {   // 스마트폰
 

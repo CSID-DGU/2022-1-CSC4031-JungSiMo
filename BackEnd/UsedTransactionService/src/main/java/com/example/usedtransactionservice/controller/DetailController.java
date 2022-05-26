@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.soap.Detail;
-
 @Slf4j
 @RestController
 @RequestMapping("api/v1/detail")
@@ -19,9 +17,6 @@ import javax.xml.soap.Detail;
 public class DetailController {
 
     private final DetailService detailService;
-
-    // Item : itemId, categoryId, itemName, itemBrand
-    // categoryId 에 따라 repository mapping
 
     @PostMapping("info")
     public ResponseEntity detailInfo(@RequestBody ItemDetailInfoRequest itemDetailInfoRequest) {
