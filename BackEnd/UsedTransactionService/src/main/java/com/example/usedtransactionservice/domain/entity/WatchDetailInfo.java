@@ -21,8 +21,7 @@ public class WatchDetailInfo {
     @Column(name = "item_id")
     private Long itemId;
 
-//    @Id
-    @Column(name = "category_d")
+    @Column(name = "category_id")
     private Long categoryId;
 
     @Column(name = "item_image")
