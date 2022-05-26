@@ -12,7 +12,7 @@ public interface EarphoneDetailInfoRepository extends JpaRepository<EarphoneDeta
 
     List<EarphoneDetailInfo> findAll();
 
-//    Optional<EarphoneDetailInfo> findByItemId(Long itemId);
+    Optional<EarphoneDetailInfo> findByItemId(Long itemId);
 
     Optional<EarphoneDetailInfo> findByItemIdAndCategoryId(Long itemId, Long categoryId);
 }
