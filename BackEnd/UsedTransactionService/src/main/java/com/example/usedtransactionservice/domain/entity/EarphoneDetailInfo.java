@@ -21,7 +21,6 @@ public class EarphoneDetailInfo {
     @Column(name = "item_id")
     private Long itemId;
 
-//    @Id
     @Column(name = "category_id")
     private Long categoryId;
 

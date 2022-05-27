@@ -2,11 +2,9 @@ package com.example.usedtransactionservice.controller;
 
 import com.example.usedtransactionservice.domain.dto.requestParam.ItemDetailInfoRequest;
 import com.example.usedtransactionservice.domain.dto.requestParam.ItemPriceInfoRequest;
-import com.example.usedtransactionservice.domain.dto.responseParam.ItemDetailInfoResponse;
 import com.example.usedtransactionservice.service.DetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +27,9 @@ public class DetailController {
         return detailService.priceChangeInfo(itemPriceInfoRequest.getItemId(), itemPriceInfoRequest.getCategoryId(), itemPriceInfoRequest.getItemState(), itemPriceInfoRequest.getItemPricePeriod());
     }
 
+    @PostMapping("price/summary")
+    public ResponseEntity priceChangeSummaryInfo(@RequestBody ItemPriceInfoRequest itemPriceInfoRequest) {
+        return detailService.priceChangeSummaryInfo(itemPriceInfoRequest.getItemId(), itemPriceInfoRequest.getCategoryId(), itemPriceInfoRequest.getItemState(), itemPriceInfoRequest.getItemPricePeriod());
+    }
 
 }

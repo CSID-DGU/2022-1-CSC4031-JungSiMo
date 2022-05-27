@@ -1,14 +1,11 @@
 package com.example.usedtransactionservice.service;
 
 
-import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeInfoResponse;
 import com.example.usedtransactionservice.domain.entity.EarphoneDetailInfo;
+import com.example.usedtransactionservice.domain.entity.SmartphoneDetailInfo;
 import com.example.usedtransactionservice.domain.entity.TabletDetailInfo;
 import com.example.usedtransactionservice.domain.entity.WatchDetailInfo;
-import com.example.usedtransactionservice.domain.repository.EarphoneDetailInfoRepository;
-import com.example.usedtransactionservice.domain.repository.ItemRepository;
-import com.example.usedtransactionservice.domain.repository.TabletDetailInfoRepository;
-import com.example.usedtransactionservice.domain.repository.WatchDetailInfoRepository;
+import com.example.usedtransactionservice.domain.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,11 +20,10 @@ import java.util.Optional;
 public class DetailService {
 
     private final ItemRepository itemRepository;
+    private final TabletDetailInfoRepository tabletDetailInfoRepository;
+    private final SmartphoneDetailInfoRepository smartphoneDetailInfoRepository;
     private final EarphoneDetailInfoRepository earphoneDetailInfoRepository;
     private final WatchDetailInfoRepository watchDetailInfoRepository;
-    private final TabletDetailInfoRepository tabletDetailInfoRepository;
-
-    private ItemPriceChangeInfoResponse itemPriceChangeInfoResponse;
 
     // TODO 상품 상세 정보 조회
     // category 1 : 노트북 / 2 : 태블릿 / 3 : 스마트폰 / 4 : 이어폰 / 5 : 스마트워치
@@ -40,6 +36,8 @@ public class DetailService {
             resultResponseEntity = new ResponseEntity(tabletDetailInfo, HttpStatus.OK);
 
         } else if (categoryId == 3) {   // 스마트폰
+            Optional<SmartphoneDetailInfo> smartphoneDetailInfo = smartphoneDetailInfoRepository.findByItemId(itemId);
+            resultResponseEntity = new ResponseEntity(smartphoneDetailInfo, HttpStatus.OK);
 
         } else if (categoryId == 4) {   // 이어폰
             Optional<EarphoneDetailInfo> earphoneDetailInfo = earphoneDetailInfoRepository.findByItemId(itemId);
@@ -56,6 +54,13 @@ public class DetailService {
 
     // TODO 상품 가격 변동 조회
     public ResponseEntity priceChangeInfo(Long itemId, Long categoryId, String itemState, String itemPricePeriod) {
+        ResponseEntity resultResponseEntity = null;
+
+        return resultResponseEntity;
+    }
+
+    // TODO 상품 가격 변동 요약 정보 조회(최고가/평균가/최저가)
+    public ResponseEntity priceChangeSummaryInfo(Long itemId, Long categoryId, String itemState, String itemPricePeriod) {
         ResponseEntity resultResponseEntity = null;
 
         return resultResponseEntity;
