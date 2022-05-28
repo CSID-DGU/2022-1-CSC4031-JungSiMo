@@ -1,10 +1,9 @@
 package com.example.usedtransactionservice.service;
 
 
-import com.example.usedtransactionservice.domain.entity.EarphoneDetailInfo;
-import com.example.usedtransactionservice.domain.entity.SmartphoneDetailInfo;
-import com.example.usedtransactionservice.domain.entity.TabletDetailInfo;
-import com.example.usedtransactionservice.domain.entity.WatchDetailInfo;
+import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeResponse;
+import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeResponseInterface;
+import com.example.usedtransactionservice.domain.entity.*;
 import com.example.usedtransactionservice.domain.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -20,6 +22,9 @@ import java.util.Optional;
 public class DetailService {
 
     private final ItemRepository itemRepository;
+//    private final ItemInfoRepository itemInfoRepository;
+    private final ItemInfoRepositoryImpl itemInfoRepository;
+
     private final TabletDetailInfoRepository tabletDetailInfoRepository;
     private final SmartphoneDetailInfoRepository smartphoneDetailInfoRepository;
     private final EarphoneDetailInfoRepository earphoneDetailInfoRepository;
@@ -53,15 +58,65 @@ public class DetailService {
     }
 
     // TODO 상품 가격 변동 조회
-    public ResponseEntity priceChangeInfo(Long itemId, Long categoryId, String itemState, String itemPricePeriod) {
+    public ResponseEntity priceChangeInfo(Long itemId, String itemPricePeriod) {
         ResponseEntity resultResponseEntity = null;
+        String highState = "상";
+        String midState = "중";
+        String lowState = "하";
+
+        ArrayList<ArrayList<ItemPriceChangeResponse>> itemPriceChangeList = new ArrayList<ArrayList<ItemPriceChangeResponse>>();
+
+        // 상품 상태 : 상
+        ArrayList<ItemPriceChangeResponseInterface> highItemPrice = new ArrayList<>();
+        List<ItemInfo> highTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, highState);
+        log.info(String.valueOf(highTmpList));
+        for (ItemInfo i : highTmpList) {
+            System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
+        }
+
+        // 상품 상태 : 중
+        ArrayList<ItemPriceChangeResponseInterface> midItemPrice = new ArrayList<>();
+        List<ItemInfo> midTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, midState);
+        log.info(String.valueOf(midTmpList));
+        for (ItemInfo i : midTmpList) {
+            System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
+        }
+
+        // 상품 상태 : 하
+        ArrayList<ItemPriceChangeResponseInterface> lowItemPrice = new ArrayList<>();
+        List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
+        log.info(String.valueOf(lowTmpList));
+        for (ItemInfo i : lowTmpList) {
+            System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
+        }
+
+//        highItemPrice.add(highTmpList)
 
         return resultResponseEntity;
     }
 
     // TODO 상품 가격 변동 요약 정보 조회(최고가/평균가/최저가)
-    public ResponseEntity priceChangeSummaryInfo(Long itemId, Long categoryId, String itemState, String itemPricePeriod) {
+    public ResponseEntity priceChangeSummaryInfo(Long itemId, String itemPricePeriod) {
         ResponseEntity resultResponseEntity = null;
+        String highState = "상";
+        String midState = "중";
+        String lowState = "하";
+
+        // 상품 상태 : 상
+        ArrayList<ArrayList<ItemPriceChangeResponse>> itemPriceChangeList = new ArrayList<ArrayList<ItemPriceChangeResponse>>();
+
+        ArrayList<ItemPriceChangeResponseInterface> highItemPrice = new ArrayList<>();
+        List<ItemInfo> highTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, highState);
+
+        // 상품 상태 : 중
+        ArrayList<ItemPriceChangeResponseInterface> midItemPrice = new ArrayList<>();
+        List<ItemInfo> midTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, midState);
+
+
+        // 상품 상태 : 하
+        ArrayList<ItemPriceChangeResponseInterface> lowItemPrice = new ArrayList<>();
+        List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
+
 
         return resultResponseEntity;
     }

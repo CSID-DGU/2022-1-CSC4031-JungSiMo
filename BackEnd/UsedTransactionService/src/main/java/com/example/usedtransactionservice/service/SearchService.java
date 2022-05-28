@@ -27,10 +27,6 @@ public class SearchService {
     private final CategoryRepository categoryRepository;
     private final ItemRepository itemRepository;
 
-    private CategorySearchResponse categorySearchResponse;
-    private BrandSearchResponse brandSearchResponse;
-    private ItemSearchResponse itemSearchResponse;
-
     // 카테고리 조회
     public List<Category> findAll() {
         List<Category> categoryList = new ArrayList<>();

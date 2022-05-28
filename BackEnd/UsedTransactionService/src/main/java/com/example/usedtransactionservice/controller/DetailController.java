@@ -24,12 +24,12 @@ public class DetailController {
 
     @PostMapping("price/change")
     public ResponseEntity priceChangeInfo(@RequestBody ItemPriceInfoRequest itemPriceInfoRequest) {
-        return detailService.priceChangeInfo(itemPriceInfoRequest.getItemId(), itemPriceInfoRequest.getCategoryId(), itemPriceInfoRequest.getItemState(), itemPriceInfoRequest.getItemPricePeriod());
+        return detailService.priceChangeInfo(itemPriceInfoRequest.getItemId(), itemPriceInfoRequest.getItemPricePeriod());
     }
 
     @PostMapping("price/summary")
     public ResponseEntity priceChangeSummaryInfo(@RequestBody ItemPriceInfoRequest itemPriceInfoRequest) {
-        return detailService.priceChangeSummaryInfo(itemPriceInfoRequest.getItemId(), itemPriceInfoRequest.getCategoryId(), itemPriceInfoRequest.getItemState(), itemPriceInfoRequest.getItemPricePeriod());
+        return detailService.priceChangeSummaryInfo(itemPriceInfoRequest.getItemId(), itemPriceInfoRequest.getItemPricePeriod());
     }
 
 }

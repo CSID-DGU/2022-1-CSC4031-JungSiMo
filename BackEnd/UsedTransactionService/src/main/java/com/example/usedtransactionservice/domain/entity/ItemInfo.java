@@ -1,6 +1,7 @@
 package com.example.usedtransactionservice.domain.entity;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,14 +17,6 @@ import java.util.Objects;
 @IdClass(ItemInfoPK.class)
 public class ItemInfo {
 
-//    @EmbeddedId
-//    private ItemInfoPK itemInfoId;
-//
-//    @MapsId("itemId")
-//    @ManyToOne
-////    @JoinColumn(name = "item_id")
-//    public Item itemId;
-
     @Id
     @Column(name = "item_id")
     private Long itemId;
@@ -35,6 +28,7 @@ public class ItemInfo {
 
     @Column(name = "item_date")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date itemDate;
 
     @Column(name = "item_title")
