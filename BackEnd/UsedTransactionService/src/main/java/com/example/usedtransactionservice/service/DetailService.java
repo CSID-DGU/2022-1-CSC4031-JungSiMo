@@ -69,7 +69,7 @@ public class DetailService {
         // 상품 상태 : 상
         ArrayList<ItemPriceChangeResponseInterface> highItemPrice = new ArrayList<>();
         List<ItemInfo> highTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, highState);
-        log.info(String.valueOf(highTmpList));
+//        log.info(String.valueOf(highTmpList));
         for (ItemInfo i : highTmpList) {
             System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
         }
@@ -77,7 +77,7 @@ public class DetailService {
         // 상품 상태 : 중
         ArrayList<ItemPriceChangeResponseInterface> midItemPrice = new ArrayList<>();
         List<ItemInfo> midTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, midState);
-        log.info(String.valueOf(midTmpList));
+//        log.info(String.valueOf(midTmpList));
         for (ItemInfo i : midTmpList) {
             System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
         }
@@ -85,14 +85,16 @@ public class DetailService {
         // 상품 상태 : 하
         ArrayList<ItemPriceChangeResponseInterface> lowItemPrice = new ArrayList<>();
         List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
-        log.info(String.valueOf(lowTmpList));
+//        log.info(String.valueOf(lowTmpList));
         for (ItemInfo i : lowTmpList) {
             System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
         }
 
-//        highItemPrice.add(highTmpList)
+        List<ItemInfo> list = itemInfoRepository.price(itemId, itemPricePeriod);
+        System.out.println(itemPricePeriod);
+        System.out.println(list);
 
-        return resultResponseEntity;
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 
     // TODO 상품 가격 변동 요약 정보 조회(최고가/평균가/최저가)

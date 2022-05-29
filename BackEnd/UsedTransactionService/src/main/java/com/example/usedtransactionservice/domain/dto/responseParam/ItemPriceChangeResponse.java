@@ -9,6 +9,12 @@ import java.util.List;
 @Data
 public class ItemPriceChangeResponse {
 
+//    private List<String> highItemPrice;
+//
+//    private List<String> midItemPrice;
+//
+//    private List<String> lowItemPrice;
+
     private List<String> highItemPrice;
 
     private List<String> midItemPrice;

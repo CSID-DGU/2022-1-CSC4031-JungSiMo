@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -27,15 +28,16 @@ public class ItemInfo {
     private Long itemSeq;
 
     @Column(name = "item_date")
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date itemDate;
+    private LocalDate itemDate;
 
     @Column(name = "item_title")
     private String itemTitle;
 
     @Column(name = "item_price")
-    private Long itemPrice;
+    private long itemPrice;
+//    private Long itemPrice;
 
     @Column(name = "item_url")
     private String itemUrl;
