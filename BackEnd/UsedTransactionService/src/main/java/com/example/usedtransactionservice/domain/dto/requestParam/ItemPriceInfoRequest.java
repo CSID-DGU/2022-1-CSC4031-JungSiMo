@@ -7,9 +7,7 @@ public class ItemPriceInfoRequest {
 
     private Long itemId;
 
-    private Long categoryId;
-
-    private String itemState;
+//    private String itemState;
 
     private String itemPricePeriod;
 
