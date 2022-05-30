@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 const SearchShow = () => {
 	const [items, setItems] = useState([]);
@@ -20,6 +21,7 @@ const SearchShow = () => {
 			.post("http://localhost:8080/api/v1/search/item", bodyParams)
 			.then((response) => {
 				setItems(response?.data);
+				console.log(response?.data);
 			});
 	}, [router.isReady, router.query, bodyParams]);
 
@@ -31,7 +33,28 @@ const SearchShow = () => {
 	}, []);
 
 	const searchItems = () => {
-		console.log("아직 미완성");
+		axios
+			.post("http://localhost:8080/api/v1/search/item/keyword", {
+				...bodyParams,
+				keyword: searchRef.current.value,
+			})
+			.then((response) => {
+				console.log("성공");
+			})
+			.catch((error) => {
+				console.log("실패");
+			});
+	};
+
+	const goResultLink = (categoryId, itemId) => {
+		axios
+			.post("http://localhost:8080/api/v1/detail/info", {
+				categoryId: categoryId,
+				itemId: itemId,
+			})
+			.then((response) => {
+				window.location = `/result?itemId=${itemId}&categoryId=${categoryId}`;
+			});
 	};
 
 	return (
@@ -69,19 +92,17 @@ const SearchShow = () => {
 						<tbody>
 							{items?.map((item) => {
 								return (
-									<Link href="/result/1" key={item?.id}>
-										<tr className="border-b border-[#AAAAAA] h-[45px] cursor-pointer">
-											<td className="pl-[15px] w-[50%] overflow-auto">
-												{item?.itemName}
-											</td>
-											<td className="w-[25%] overflow-x-auto">
-												{item?.detail?.hdd}
-											</td>
-											<td className="w-[25%] overflow-x-auto">
-												{item?.detail?.ram}
-											</td>
-										</tr>
-									</Link>
+									<tr
+										onClick={goResultLink(item?.categoryId, item?.itemId)}
+										key={item?.itemId}
+										className="w-full border-b border-[#AAAAAA]  cursor-pointer h-[45px]"
+									>
+										<td className="pl-[15px] overflow-auto">
+											{item?.itemName}
+										</td>
+										<td className="overflow-x-auto">{item?.detail?.hdd}</td>
+										<td className="overflow-x-auto">{item?.detail?.ram}</td>
+									</tr>
 								);
 							})}
 						</tbody>
