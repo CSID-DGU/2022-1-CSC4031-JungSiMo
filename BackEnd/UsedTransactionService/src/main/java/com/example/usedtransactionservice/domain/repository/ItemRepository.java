@@ -21,14 +21,11 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     Optional<Item> findByItemName(String itemName);
 
-    // categoryName 으로 categoryId 찾고 -> categoryId에 해당하는 itemBrand 중복 제거
-//    @Query("select distinct i from Item i where i.categoryId = :categoryId")
-//    List<BrandSearchResponseInterface> findDistinctByCategoryId(@Param("categoryId") Long categoryId);
     List<BrandSearchResponseInterface> findDistinctByCategoryId(Long categoryId);
 
     List<Item> findByCategoryIdAndItemBrand(Long categoryId, String itemBrand);
 
     @Query("select i from Item i where i.categoryId = :categoryId and i.itemBrand = :itemBrand and i.itemName like %:keyword%")
-    List<Item> findByItemKeyword(@Param("categoryId") Long categoryId, @Param("itemBrand") String itemBrand, @Param("keyword") String keyword);
+    Optional<Item> findByItemKeyword(@Param("categoryId") Long categoryId, @Param("itemBrand") String itemBrand, @Param("keyword") String keyword);
 
 }
