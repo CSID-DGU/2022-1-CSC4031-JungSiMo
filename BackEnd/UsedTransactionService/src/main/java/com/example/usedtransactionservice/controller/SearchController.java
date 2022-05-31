@@ -25,6 +25,7 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -76,12 +77,12 @@ public class SearchController {
 
     // TODO 아이템 검색 리스트 조회
     @PostMapping("item/keyword")
-    public ResponseEntity<List<Item>> itemSearchByKeyword(@RequestBody ItemSearchByKeywordRequest itemSearchByKeywordRequest) {
-        List<Item> itemList = searchService.itemSearchByKeyword(
+    public ResponseEntity<Optional<Item>> itemSearchByKeyword(@RequestBody ItemSearchByKeywordRequest itemSearchByKeywordRequest) {
+        Optional<Item> itemList = searchService.itemSearchByKeyword(
                 itemSearchByKeywordRequest.getCategoryName(),
                 itemSearchByKeywordRequest.getItemBrand(),
                 itemSearchByKeywordRequest.getKeyword());
-        return new ResponseEntity<List<Item>>(itemList, HttpStatus.OK);
+        return new ResponseEntity<Optional<Item>>(itemList, HttpStatus.OK);
     }
 
 }
