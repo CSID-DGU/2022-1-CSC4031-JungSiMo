@@ -38,6 +38,9 @@ public class SearchService {
     // 브랜드 조회(카테고리 이름 선택 -> 카테고리 ID 조회 -> 브랜드 조회)
     public List<BrandSearchResponseInterface> brandSearch(String catName) {
         Optional<Category> category = categoryRepository.findByCategoryName(catName);
+        if (!category.isPresent()) {
+            return null;
+        }
         Long categoryId = category.get().getCategoryId();
         List<BrandSearchResponseInterface> brandList = itemRepository.findDistinctByCategoryId(categoryId);
 
@@ -47,6 +50,9 @@ public class SearchService {
     // 상품 리스트 조회
     public List<Item> itemSearch(String catName, String itemBrand) {
         Optional<Category> category = categoryRepository.findByCategoryName(catName);
+        if (!category.isPresent()) {
+            return null;
+        }
         Long categoryId = category.get().getCategoryId();
         List<Item> item = itemRepository.findByCategoryIdAndItemBrand(categoryId, itemBrand);
 
@@ -56,6 +62,9 @@ public class SearchService {
     // 상품 검색 -> 상품 리스트 조회 내역 내에서 검색
     public Optional<Item> itemSearchByKeyword(String catName, String itemBrand, String keyword) {
         Optional<Category> category = categoryRepository.findByCategoryName(catName);
+        if (!category.isPresent()) {
+            return null;
+        }
         Long categoryId = category.get().getCategoryId();
         Optional<Item> keywordItem = itemRepository.findByItemKeyword(categoryId, itemBrand, keyword);
 
