@@ -6,11 +6,10 @@ import java.util.Date;
 
 public interface ItemPriceChangeResponseInterface {
 
-    Date getItemDate();
+    String itemState();
 
-    Date setItemDate();
+    Date getItemDate();
 
     Long getItemPrice();
 
-    Long setItemPrice(Long avg);
 }
