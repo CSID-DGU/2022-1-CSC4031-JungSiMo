@@ -1,14 +1,11 @@
 package com.example.usedtransactionservice.domain.repository;
 
 import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeResponse;
-import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeResponseInterface;
 import com.example.usedtransactionservice.domain.entity.ItemInfo;
 import com.example.usedtransactionservice.domain.entity.QItemInfo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
@@ -22,7 +19,6 @@ import java.util.List;
 public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
 
     private ItemPriceChangeResponse itemPriceChangeResponse;
-    private ItemPriceChangeResponseInterface itemPriceChangeResponseInterface;
 
     private final JPAQueryFactory jpaQueryFactory;
 

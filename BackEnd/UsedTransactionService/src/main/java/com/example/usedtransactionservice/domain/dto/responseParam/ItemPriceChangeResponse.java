@@ -19,10 +19,4 @@ public class ItemPriceChangeResponse {
     private long itemPrice;
 
 
-//    private List<String> highItemPrice;
-//
-//    private List<String> midItemPrice;
-//
-//    private List<String> lowItemPrice;
-
 }
