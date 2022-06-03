@@ -8,7 +8,5 @@ import java.util.List;
 
 public interface ItemInfoCustomRepository {
 
-    List<ItemInfo> findByItemDateBetween(LocalDate start, LocalDate end);
-
-    List<Tuple> findByItemDateBetween2(Long itemId, LocalDate start, LocalDate end);
+    List<Tuple> findByItemDateBetween(Long itemId, LocalDate start, LocalDate end);
 }

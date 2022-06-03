@@ -22,6 +22,11 @@ public class DetailController {
         return detailService.detailInfo(itemDetailInfoRequest.getItemId(), itemDetailInfoRequest.getCategoryId());
     }
 
+    @PostMapping("price/test")
+    public ResponseEntity priceTest(@RequestBody ItemPriceInfoRequest itemPriceInfoRequest) {
+        return detailService.priceTest(itemPriceInfoRequest.getItemId());
+    }
+
     @PostMapping("price/change")
     public ResponseEntity priceChangeInfo(@RequestBody ItemPriceInfoRequest itemPriceInfoRequest) {
         return detailService.priceChangeInfo(itemPriceInfoRequest.getItemId(), itemPriceInfoRequest.getItemPricePeriod());

@@ -5,14 +5,15 @@ import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChan
 import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeResponseInterface;
 import com.example.usedtransactionservice.domain.entity.*;
 import com.example.usedtransactionservice.domain.repository.*;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ import java.util.Optional;
 public class DetailService {
 
     private final ItemRepository itemRepository;
-//    private final ItemInfoRepository itemInfoRepository;
+    private final ItemInfoRepository itemInfoRepository2;
     private final ItemInfoRepositoryImpl itemInfoRepository;
 
     private final TabletDetailInfoRepository tabletDetailInfoRepository;
@@ -57,7 +58,18 @@ public class DetailService {
 
     }
 
-    // TODO 상품 가격 변동 조회
+    // TODO 기간별 가격 조회 TEST 메서드 - 기간별 조건만 설정
+    public ResponseEntity priceTest(Long ItemId) {
+        LocalDate start = LocalDate.now();
+        LocalDate end = start.minusMonths(1);
+        List<ItemInfo> itemInfoTest = itemInfoRepository2.findByItemDateBetween(start, end);
+
+        ResponseEntity resultResponseEntity = new ResponseEntity(itemInfoTest, HttpStatus.OK);
+
+        return resultResponseEntity;
+    }
+
+    // TODO 상품 가격 변동 조회 - start : 이전 날짜 / end : 최근 날짜
     public ResponseEntity priceChangeInfo(Long itemId, String itemPricePeriod) {
         ResponseEntity resultResponseEntity = null;
         String highState = "상";
@@ -69,7 +81,6 @@ public class DetailService {
         // 상품 상태 : 상
         ArrayList<ItemPriceChangeResponseInterface> highItemPrice = new ArrayList<>();
         List<ItemInfo> highTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, highState);
-//        log.info(String.valueOf(highTmpList));
         for (ItemInfo i : highTmpList) {
             System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
         }
@@ -77,7 +88,6 @@ public class DetailService {
         // 상품 상태 : 중
         ArrayList<ItemPriceChangeResponseInterface> midItemPrice = new ArrayList<>();
         List<ItemInfo> midTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, midState);
-//        log.info(String.valueOf(midTmpList));
         for (ItemInfo i : midTmpList) {
             System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
         }
@@ -85,14 +95,16 @@ public class DetailService {
         // 상품 상태 : 하
         ArrayList<ItemPriceChangeResponseInterface> lowItemPrice = new ArrayList<>();
         List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
-//        log.info(String.valueOf(lowTmpList));
         for (ItemInfo i : lowTmpList) {
             System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
         }
 
-        List<ItemInfo> list = itemInfoRepository.price(itemId, itemPricePeriod);
+
+        List<List<ItemPriceChangeResponse>> list = itemInfoRepository.priceChangeInfo(itemId, itemPricePeriod);
+
         System.out.println(itemPricePeriod);
         System.out.println(list);
+
 
         return new ResponseEntity(list, HttpStatus.OK);
     }
@@ -114,11 +126,9 @@ public class DetailService {
         ArrayList<ItemPriceChangeResponseInterface> midItemPrice = new ArrayList<>();
         List<ItemInfo> midTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, midState);
 
-
         // 상품 상태 : 하
         ArrayList<ItemPriceChangeResponseInterface> lowItemPrice = new ArrayList<>();
         List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
-
 
         return resultResponseEntity;
     }

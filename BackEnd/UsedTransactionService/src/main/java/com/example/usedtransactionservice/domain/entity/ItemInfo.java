@@ -1,13 +1,13 @@
 package com.example.usedtransactionservice.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Objects;
+import java.time.LocalDateTime;
+
 
 @Builder
 @Getter @Setter
@@ -30,14 +30,19 @@ public class ItemInfo {
     @Column(name = "item_date")
 //    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     private LocalDate itemDate;
+
+//    @Column(name = "item_date")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private LocalDateTime itemDate;
 
     @Column(name = "item_title")
     private String itemTitle;
 
     @Column(name = "item_price")
-    private long itemPrice;
-//    private Long itemPrice;
+    private Long itemPrice;
 
     @Column(name = "item_url")
     private String itemUrl;
