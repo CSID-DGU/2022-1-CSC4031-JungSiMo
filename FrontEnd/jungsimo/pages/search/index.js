@@ -4,64 +4,60 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+import { useCookies } from "react-cookie";
 
 const SearchShow = () => {
-	const [items, setItems] = useState([]);
+	const [cookies, setCookies] = useCookies(["jungsimo"]);
 
-	const router = useRouter();
+	const [items, setItems] = useState(null);
+
 	const searchRef = useRef();
-	const [bodyParams, setBodyParams] = useState({
-		categoryName: null,
-		itemBrand: null,
-	});
 
 	useEffect(() => {
 		axios
-			.post("http://localhost:8080/api/v1/search/item", bodyParams)
+			.post("http://localhost:8080/api/v1/search/item", {
+				categoryName: cookies["product"],
+				itemBrand: cookies["brand"],
+			})
 			.then((response) => {
 				setItems(response?.data);
 				console.log(response?.data);
 			});
-	}, [router.isReady, router.query, bodyParams]);
-
-	useEffect(() => {
-		setBodyParams({
-			categoryName: router?.query?.categoryName,
-			itemBrand: router?.query?.itemBrand,
-		});
 	}, []);
 
 	const searchItems = () => {
+		console.log(cookies["product"]);
+		console.log(cookies["brand"]);
+		console.log(searchRef.current.value);
 		axios
 			.post("http://localhost:8080/api/v1/search/item/keyword", {
-				...bodyParams,
+				categoryName: cookies["product"],
+				itemBrand: cookies["brand"],
 				keyword: searchRef.current.value,
 			})
 			.then((response) => {
-				console.log("성공");
+				console.log(response?.data);
 			})
 			.catch((error) => {
 				console.log("실패");
 			});
 	};
 
-	const goResultLink = (categoryId, itemId) => {
-		axios
-			.post("http://localhost:8080/api/v1/detail/info", {
-				categoryId: categoryId,
-				itemId: itemId,
-			})
-			.then((response) => {
-				window.location = `/result?itemId=${itemId}&categoryId=${categoryId}`;
-			});
+	const clickItemDetail = (itemId, categoryId, itemName) => {
+		// console.log(itemId);
+		// console.log(categoryId);
+		setCookies("itemId", itemId);
+		setCookies("categoryId", categoryId);
+		setCookies("itemName", itemName);
+
+		location.href = "/result";
 	};
 
 	return (
 		<Layout>
 			<div className="flex flex-col mt-[60px]">
 				<span className="mx-[15px] text-xs">
-					검색 조건 : {router?.query?.itemBrand} / {router?.query?.categoryName}
+					검색 조건 : {cookies["product"]} / {cookies["brand"]}
 				</span>
 				<div className="flex h-[45px] mt-[5px]">
 					<input
@@ -73,9 +69,7 @@ const SearchShow = () => {
 					<button
 						type="submit"
 						className="flex items-center justify-center text-white bg-blue-800 mr-[15px] shrink-0 rounded-[5px] w-[79px]"
-						onClick={() => {
-							searchItems;
-						}}
+						onClick={searchItems}
 					>
 						검색
 					</button>
@@ -93,7 +87,13 @@ const SearchShow = () => {
 							{items?.map((item) => {
 								return (
 									<tr
-										onClick={goResultLink(item?.categoryId, item?.itemId)}
+										onClick={() =>
+											clickItemDetail(
+												item?.itemId,
+												item?.categoryId,
+												item?.itemName
+											)
+										}
 										key={item?.itemId}
 										className="w-full border-b border-[#AAAAAA]  cursor-pointer h-[45px]"
 									>

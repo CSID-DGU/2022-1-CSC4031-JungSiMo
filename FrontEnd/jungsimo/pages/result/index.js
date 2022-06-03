@@ -22,8 +22,97 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { page3Sample } from "../../public/sampleData";
+import { values, omit, reverse, filter } from "lodash";
 
 const ResultShow = () => {
+	const [cookies, setCookies] = useCookies(["jungsimo"]);
+
+	const [priceParams, setPriceParams] = useState({
+		itemId: cookies["itemId"],
+		itemPricePeriod: "1d",
+	});
+
+	const [priceBig, setPriceBig] = useState([]);
+	const [priceAvg, setPriceAvg] = useState([]);
+	const [priceSmall, setPriceSmall] = useState([]);
+
+	const [labels, setLabels] = useState([]);
+
+	useEffect(() => {
+		console.log(cookies["itemId"]);
+		console.log(cookies["categoryId"]);
+		// axios
+		// 	.post("https://localhost:8080/api/v1/detail/info", {
+		// 		itemId: cookies["itemId"],
+		// 		categoryId: cookies["categoryId"],
+		// 	})
+		// 	.then((response) => {
+		// 		console.log(response);
+		// 	})
+		// 	.catch(() => {
+		// 		console.log("no!");
+		// 	});
+	}, []);
+
+	useEffect(() => {
+		setLabels([]);
+		setPriceBig([]);
+		setPriceAvg([]);
+		setPriceSmall([]);
+		axios
+			.post("http://localhost:8080/api/v1/detail/price/change", priceParams)
+			.then((response) => {
+				console.log(response?.data);
+				reverse(response?.data).map((res) => {
+					if (res?.length !== 0) {
+						setLabels((labels) => [...labels, res[0]?.itemDate]);
+
+						let filterdBig = filter(res, (r) => {
+							return r.itemState === "상";
+						});
+
+						if (filterdBig?.length === 1) {
+							setPriceBig((priceBig) => [...priceBig, filterdBig[0].itemPrice]);
+						} else {
+							setPriceBig((priceAvg) => [...priceAvg, null]);
+						}
+
+						let filterdAvg = filter(res, (r) => {
+							return r.itemState === "중";
+						});
+
+						if (filterdAvg?.length === 1) {
+							setPriceAvg((priceAvg) => [...priceAvg, filterdAvg[0].itemPrice]);
+						} else {
+							setPriceAvg((priceAvg) => [...priceAvg, null]);
+						}
+
+						let filterdSmall = filter(res, (r) => {
+							return r.itemState === "하";
+						});
+
+						if (filterdSmall?.length === 1) {
+							setPriceSmall((priceSmall) => [
+								...priceSmall,
+								filterdSmall[0].itemPrice,
+							]);
+						} else {
+							setPriceSmall((priceSmall) => [...priceSmall, null]);
+						}
+					}
+				});
+			});
+	}, [priceParams]);
+
+	console.log(priceBig);
+	console.log(priceAvg);
+	console.log(priceSmall);
+	console.log(labels);
+
 	ChartJS.register(
 		CategoryScale,
 		LinearScale,
@@ -44,7 +133,7 @@ const ResultShow = () => {
 		plugins: {
 			title: {
 				display: true,
-				text: "Chart.js Line Chart - Multi Axis",
+				text: "기간 별 중고 거래",
 			},
 		},
 		scales: {
@@ -64,28 +153,26 @@ const ResultShow = () => {
 		},
 	};
 
-	const labels = chartLabel;
-
 	const data = {
 		labels,
 		datasets: [
 			{
 				label: "최고가",
-				data: chartBig?.chartY,
+				data: priceBig,
 				borderColor: "rgb(255, 99, 132)",
 				backgroundColor: "#323ea8",
 				yAxisID: "y",
 			},
 			{
 				label: "평균가",
-				data: chartAvg?.chartY,
+				data: priceAvg,
 				borderColor: "rgb(255, 99, 132)",
 				backgroundColor: "#32a84a",
 				yAxisID: "y",
 			},
 			{
 				label: "최저가",
-				data: chartSmall?.chartY,
+				data: priceSmall,
 				borderColor: "rgb(255, 99, 132)",
 				backgroundColor: "#ebde31",
 				yAxisID: "y",
@@ -97,24 +184,29 @@ const ResultShow = () => {
 		<Layout>
 			<div className="flex mt-[30px] px-[15px]">
 				<div className="flex flex-col shrink-0">
-					<span className="text-xl font-bold">{product?.name}</span>
-					<Image src={sample1} width={128} height={128} />
+					<span className="text-xl font-bold">{cookies["itemName"]}</span>
+					<Image src={`${page3Sample.itemImage}`} width={128} height={128} />
 				</div>
-				<div className="flex flex-col justify-center ml-4 text-sm">
-					{product?.detail?.hdd !== "" && (
-						<div className="flex">
-							<span>HDD:&nbsp;</span>
-							<span>{product?.detail?.hdd}</span>
-						</div>
-					)}
-					{product?.detail?.ram !== "" && (
-						<div className="flex">
-							<span>RAM:&nbsp;</span>
-							<span>{product?.detail?.ram}</span>
-						</div>
+				<div className="grid justify-center grid-cols-4 ml-4 text-sm">
+					{values(omit(page3Sample, ["itemId", "categoryId", "itemImage"])).map(
+						(value, index) => {
+							return <span key={`option_${index}`}>{value}</span>;
+						}
 					)}
 				</div>
 			</div>
+			<select
+				onChange={(e) => {
+					setPriceParams({
+						...priceParams,
+						itemPricePeriod: e.currentTarget.value,
+					});
+				}}
+			>
+				<option value="1d">일</option>
+				<option value="1w">주</option>
+				<option value="1m">월</option>
+			</select>
 			<Line options={options} data={data} />
 			<div className="flex flex-col px-[15px] mt-8">
 				<span className="text-sm font-bold">최고가격</span>
