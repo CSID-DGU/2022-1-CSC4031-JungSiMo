@@ -72,14 +72,13 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
         builder.and(itemInfo.itemDate.between(end, start));
 //        builder.and(itemInfo.itemDate.goe(end));
 //        builder.and(itemInfo.itemDate.loe(start));
-//        builder.and(itemInfo.itemState.eq(itemState));
-
 
         return jpaQueryFactory.from(itemInfo)
                 .select(itemInfo.itemState
                         , itemInfo.itemPrice.avg().longValue())
                 .where(builder)
                 .groupBy(itemInfo.itemState)
+                .orderBy(itemInfo.itemState.asc())
                 .fetch();
 
     }
