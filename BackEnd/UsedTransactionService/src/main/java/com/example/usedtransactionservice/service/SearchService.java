@@ -60,13 +60,13 @@ public class SearchService {
     }
 
     // 상품 검색 -> 상품 리스트 조회 내역 내에서 검색
-    public Optional<Item> itemSearchByKeyword(String catName, String itemBrand, String keyword) {
+    public List<Item> itemSearchByKeyword(String catName, String itemBrand, String keyword) {
         Optional<Category> category = categoryRepository.findByCategoryName(catName);
         if (!category.isPresent()) {
             return null;
         }
         Long categoryId = category.get().getCategoryId();
-        Optional<Item> keywordItem = itemRepository.findByItemKeyword(categoryId, itemBrand, keyword);
+        List<Item> keywordItem = itemRepository.findByItemKeyword(categoryId, itemBrand, keyword);
 
         return keywordItem;
     }
