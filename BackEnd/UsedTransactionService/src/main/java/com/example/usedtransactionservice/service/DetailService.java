@@ -66,20 +66,8 @@ public class DetailService {
     // TODO 상품 가격 변동 요약 정보 조회(최고가/평균가/최저가)
     public ResponseEntity priceChangeSummaryInfo(Long itemId, String itemPricePeriod) {
         ResponseEntity resultResponseEntity = null;
-        String highState = "상";
-        String midState = "중";
-        String lowState = "하";
-
-        // 상품 상태 : 상
-        List<ItemInfo> highTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, highState);
-
-        // 상품 상태 : 중
-        List<ItemInfo> midTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, midState);
-
-        // 상품 상태 : 하
-        List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
-
         ItemPriceChangeSummaryResponseDto list = itemInfoRepository.priceChangeSummaryInfo(itemId, itemPricePeriod);
+        
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
