@@ -45,17 +45,16 @@ const ResultShow = () => {
 	useEffect(() => {
 		console.log(cookies["itemId"]);
 		console.log(cookies["categoryId"]);
-		// axios
-		// 	.post("https://localhost:8080/api/v1/detail/info", {
-		// 		itemId: cookies["itemId"],
-		// 		categoryId: cookies["categoryId"],
-		// 	})
-		// 	.then((response) => {
-		// 		console.log(response);
-		// 	})
-		// 	.catch(() => {
-		// 		console.log("no!");
-		// 	});
+		axios
+			.post("https://localhost:8080/api/v1/detail/info", {
+				// itemId: cookies["itemId"],
+				// categoryId: cookies["categoryId"],
+				itemId: "6",
+				categoryId: "4",
+			})
+			.then((response) => {
+				console.log(response);
+			});
 	}, []);
 
 	useEffect(() => {

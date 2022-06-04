@@ -41,7 +41,6 @@ const Home = (props) => {
 
 	useEffect(() => {
 		setName2("브랜드를 선택하세요");
-		console.log(cookies);
 	}, [name1]);
 
 	return (
