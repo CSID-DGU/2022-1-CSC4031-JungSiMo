@@ -2,6 +2,7 @@ package com.example.usedtransactionservice.service;
 
 
 import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeResponse;
+import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeSummaryResponse;
 import com.example.usedtransactionservice.domain.entity.*;
 import com.example.usedtransactionservice.domain.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -56,29 +57,6 @@ public class DetailService {
     // TODO 상품 가격 변동 조회 - start : 이전 날짜 / end : 최근 날짜
     public ResponseEntity priceChangeInfo(Long itemId, String itemPricePeriod) {
         ResponseEntity resultResponseEntity = null;
-        String highState = "상";
-        String midState = "중";
-        String lowState = "하";
-
-        // 상품 상태 : 상
-        List<ItemInfo> highTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, highState);
-        for (ItemInfo i : highTmpList) {
-            System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
-        }
-
-        // 상품 상태 : 중
-        List<ItemInfo> midTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, midState);
-        for (ItemInfo i : midTmpList) {
-            System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
-        }
-
-        // 상품 상태 : 하
-        List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
-        for (ItemInfo i : lowTmpList) {
-            System.out.println(" 날짜 : "  + i.getItemDate() + " 가격 : "  + i.getItemPrice());
-        }
-
-
         List<List<ItemPriceChangeResponse>> list = itemInfoRepository.priceChangeInfo(itemId, itemPricePeriod);
 
         return new ResponseEntity(list, HttpStatus.OK);
@@ -100,7 +78,8 @@ public class DetailService {
         // 상품 상태 : 하
         List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
 
-        return resultResponseEntity;
+        List<List<ItemPriceChangeSummaryResponse>> list = itemInfoRepository.priceChangeSummaryInfo(itemId, itemPricePeriod);
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 
 }
