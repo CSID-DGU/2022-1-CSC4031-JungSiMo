@@ -67,7 +67,7 @@ public class DetailService {
     public ResponseEntity priceChangeSummaryInfo(Long itemId, String itemPricePeriod) {
         ResponseEntity resultResponseEntity = null;
         ItemPriceChangeSummaryResponseDto list = itemInfoRepository.priceChangeSummaryInfo(itemId, itemPricePeriod);
-        
+
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
