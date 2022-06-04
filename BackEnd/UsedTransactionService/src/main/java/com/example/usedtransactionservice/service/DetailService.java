@@ -3,6 +3,7 @@ package com.example.usedtransactionservice.service;
 
 import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeResponse;
 import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeSummaryResponse;
+import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeSummaryResponseDto;
 import com.example.usedtransactionservice.domain.entity.*;
 import com.example.usedtransactionservice.domain.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -78,7 +79,7 @@ public class DetailService {
         // 상품 상태 : 하
         List<ItemInfo> lowTmpList = itemInfoRepository.findByItemIdAndItemState(itemId, lowState);
 
-        List<List<ItemPriceChangeSummaryResponse>> list = itemInfoRepository.priceChangeSummaryInfo(itemId, itemPricePeriod);
+        ItemPriceChangeSummaryResponseDto list = itemInfoRepository.priceChangeSummaryInfo(itemId, itemPricePeriod);
         return new ResponseEntity(list, HttpStatus.OK);
     }
 

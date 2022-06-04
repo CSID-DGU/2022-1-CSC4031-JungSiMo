@@ -2,6 +2,7 @@ package com.example.usedtransactionservice.domain.repository;
 
 import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeResponse;
 import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeSummaryResponse;
+import com.example.usedtransactionservice.domain.dto.responseParam.ItemPriceChangeSummaryResponseDto;
 import com.example.usedtransactionservice.domain.entity.ItemInfo;
 import com.example.usedtransactionservice.domain.entity.QItemInfo;
 import com.querydsl.core.BooleanBuilder;
@@ -134,23 +135,10 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
 
                 resultList.add(tmpList);
 
-/*
-                // list 에는 기간별 itemDate, itemState, itemPrice 가 담기도록
-                // 한 주의 정보만 포함
-                tupleList.stream().forEach(tuple -> {
-                    System.out.println("tuple : " + tuple);   // [[중, 180000], [상, 189530], [하, 63333]]
-                    System.out.println("itemState : " + tuple.get(0, String.class));
-                    System.out.println("Average Price : " + tuple.get(1, long.class));
-                    avgPrice[0] = Long.valueOf(tuple.get(1, long.class));
-                    average[0] = Long.valueOf(tuple.get(1, long.class));
-
- */
-
                 start = end;
                 end = end.minusWeeks(one);
 
             }
-
 
         } else if (pricePeriod.equals("1m")) {
             LocalDate end = date.minusMonths(one);
@@ -180,7 +168,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
 
     }
 
-    // TODO 최솟값 요약 정보
+    // TODO 가격 요약 정보
    public List<Tuple> findByItemDateBetweenAgg(Long itemId, LocalDate start, LocalDate end) {
 
         QItemInfo itemInfo = QItemInfo.itemInfo;
@@ -211,131 +199,168 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
 
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(itemInfo.itemId.eq(itemId));
-        builder.and(itemInfo.itemDate.between(end, start));
+        builder.and(itemInfo.itemDate.between(end, start));   // 기간 단위 별 전체 기간 포함
+
         return jpaQueryFactory.from(itemInfo)
                 .select(itemInfo.itemState,
-                        itemInfo.itemPrice.eq(
-                                JPAExpressions.select(itemInfo.itemPrice.min())
-                                .from(itemInfo)
-                        ),
+                        itemInfo.itemPrice.min(),
                         itemInfo.itemSource,
-                        itemInfo.itemSource
+                        itemInfo.itemUrl
                 )
+                .where(builder)
+                .groupBy(itemInfo.itemState)
+                .orderBy(itemInfo.itemState.asc())
                 .fetch();
 
     }
 
+    // TODO 평균가 요약 정보
+    public List<Tuple> indByItemDateBetweenAvg(Long itemId, LocalDate start, LocalDate end) {
+        QItemInfo itemInfo = QItemInfo.itemInfo;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(itemInfo.itemId.eq(itemId));
+        builder.and(itemInfo.itemDate.between(end, start));
+        return jpaQueryFactory.from(itemInfo)
+                .select(itemInfo.itemState,
+                        itemInfo.itemPrice.avg(),
+                        itemInfo.itemSource,
+                        itemInfo.itemUrl
+                )
+                .groupBy(itemInfo.itemState)
+                .orderBy(itemInfo.itemState.asc())
+                .fetch();
+    }
+
     // TODO 최고가 요약 정보
-//    public List<Tuple> indByItemDateBetweenMax(Long itemId, LocalDate start, LocalDate end) {
-//        QItemInfo itemInfo = QItemInfo.itemInfo;
-//
-//        BooleanBuilder builder = new BooleanBuilder();
-//        builder.and(itemInfo.itemId.eq(itemId));
-//        builder.and(itemInfo.itemDate.between(end, start));
-//        return jpaQueryFactory.from(itemInfo)
-//                .select()
-//    }
+    public List<Tuple> findByItemDateBetweenMax(Long itemId, LocalDate start, LocalDate end) {
+        QItemInfo itemInfo = QItemInfo.itemInfo;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(itemInfo.itemId.eq(itemId));
+        builder.and(itemInfo.itemDate.between(end, start));   // 기간 단위 별 전체 기간 포함
+
+        return jpaQueryFactory.from(itemInfo)
+                .select(itemInfo.itemState,
+                        itemInfo.itemPrice.max(),
+                        itemInfo.itemSource,
+                        itemInfo.itemUrl
+                )
+                .groupBy(itemInfo.itemState)
+                .orderBy(itemInfo.itemState.asc())
+                .fetch();
+    }
 
 
-
-    public List<List<ItemPriceChangeSummaryResponse>> priceChangeSummaryInfo(Long itemId, String pricePeriod) {
-        List<List<ItemPriceChangeSummaryResponse>> resultList = new ArrayList<>();
-        // 각 기간별 상품 상태에 따른 가격 - 최댓값, 평균값 , 최솟값 - 사이트 - url
+    // TODO 기간별 상품 상태에 따른 가격 요약 정보
+    public ItemPriceChangeSummaryResponseDto priceChangeSummaryInfo(Long itemId, String pricePeriod) {
+        ItemPriceChangeSummaryResponseDto itemPriceChangeSummaryResponseDto = new ItemPriceChangeSummaryResponseDto();
 
         LocalDate date = LocalDate.now();
         LocalDate start = date;
 
         int one = 1;
-        Long avg = Long.valueOf(0);
 
         if (pricePeriod.equals("1d")) {
-            LocalDate end = date.minusDays(one);
+            LocalDate end = date.minusDays(6 * one);
 
-            for (int i = 0; i <= 5; i++) {
+            List<Tuple> tupleListMax = findByItemDateBetweenMax(itemId, start, end);
+            List<Tuple> tupleListAvg = findByItemDateBetweenAgg(itemId, start, end);
+            List<Tuple> tupleListMin = findByItemDateBetweenMin(itemId, start, end);
 
-                List<Tuple> tupleList = findByItemDateBetweenAgg(itemId, start, end);
-                List<ItemPriceChangeSummaryResponse> tmpList = new ArrayList<>();
+            List<ItemPriceChangeSummaryResponse> tmpMaxList = new ArrayList<>();
+            for (Tuple t : tupleListMax) {
+                ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
+                itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
+                itemPriceChangeSummaryResponse.setItemPrice(t.get(1, Long.class));
+                itemPriceChangeSummaryResponse.setItemSource(t.get(2, String.class));
+                itemPriceChangeSummaryResponse.setItemUrl(t.get(3, String.class));
+                tmpMaxList.add(itemPriceChangeSummaryResponse);
+            }
+            itemPriceChangeSummaryResponseDto.setMaxPriceItem(tmpMaxList);
 
-                for (Tuple t : tupleList) {
-                    System.out.println("t : " + t);
-                    ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
-                    itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
-                    itemPriceChangeSummaryResponse.setItemMinPrice(t.get(1, long.class));
-                    itemPriceChangeSummaryResponse.setItemAvgPrice(t.get(2, long.class));
-                    itemPriceChangeSummaryResponse.setItemMaxPrice(t.get(3, long.class));
-                    itemPriceChangeSummaryResponse.setItemSource(t.get(4, String.class));
-                    itemPriceChangeSummaryResponse.setItemUrl(t.get(5, String.class));
-                    itemPriceChangeSummaryResponse.setItemDate(start);
+            List<ItemPriceChangeSummaryResponse> tmpAvgList = new ArrayList<>();
 
-                    tmpList.add(itemPriceChangeSummaryResponse);
-                }
-
-                resultList.add(tmpList);
-
-                start = end;
-                end = end.minusDays(one);
+            List<ItemPriceChangeSummaryResponse> tmpMinList = new ArrayList<>();
+            for (Tuple t : tupleListMin) {
+                ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
+                itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
+                itemPriceChangeSummaryResponse.setItemPrice(t.get(1, Long.class));
+                itemPriceChangeSummaryResponse.setItemSource(t.get(2, String.class));
+                itemPriceChangeSummaryResponse.setItemUrl(t.get(3, String.class));
+                tmpMinList.add(itemPriceChangeSummaryResponse);
 
             }
+
+            itemPriceChangeSummaryResponseDto.setMinPriceItem(tmpMinList);
 
         } else if (pricePeriod.equals("1w")) {
-            LocalDate end = date.minusWeeks(one);
+            LocalDate end = date.minusWeeks(6 * one);
 
-            for (int i = 0; i <= 5; i++) {
+            List<Tuple> tupleListMax = findByItemDateBetweenMax(itemId, start, end);
+            List<Tuple> tupleListAvg = findByItemDateBetweenAgg(itemId, start, end);
+            List<Tuple> tupleListMin = findByItemDateBetweenMin(itemId, start, end);
 
-                List<Tuple> tupleList = findByItemDateBetweenAgg(itemId, start, end);
-                List<ItemPriceChangeSummaryResponse> tmpList = new ArrayList<>();
+            List<ItemPriceChangeSummaryResponse> tmpMaxList = new ArrayList<>();
+            for (Tuple t : tupleListMax) {
+                ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
+                itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
+                itemPriceChangeSummaryResponse.setItemPrice(t.get(1, Long.class));
+                itemPriceChangeSummaryResponse.setItemSource(t.get(2, String.class));
+                itemPriceChangeSummaryResponse.setItemUrl(t.get(3, String.class));
+                tmpMaxList.add(itemPriceChangeSummaryResponse);
+            }
+            itemPriceChangeSummaryResponseDto.setMaxPriceItem(tmpMaxList);
 
-                for (Tuple t : tupleList) {
-                    ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
-                    itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
-                    itemPriceChangeSummaryResponse.setItemMinPrice(t.get(1, long.class));
-                    itemPriceChangeSummaryResponse.setItemAvgPrice(t.get(2, long.class));
-                    itemPriceChangeSummaryResponse.setItemMaxPrice(t.get(3, long.class));
-                    itemPriceChangeSummaryResponse.setItemSource(t.get(4, String.class));
-                    itemPriceChangeSummaryResponse.setItemUrl(t.get(5, String.class));
-                    itemPriceChangeSummaryResponse.setItemDate(start);
+            List<ItemPriceChangeSummaryResponse> tmpAvgList = new ArrayList<>();
 
-                    tmpList.add(itemPriceChangeSummaryResponse);
-                }
-
-                resultList.add(tmpList);
-
-
-                start = end;
-                end = end.minusWeeks(one);
+            List<ItemPriceChangeSummaryResponse> tmpMinList = new ArrayList<>();
+            for (Tuple t : tupleListMin) {
+                ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
+                itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
+                itemPriceChangeSummaryResponse.setItemPrice(t.get(1, Long.class));
+                itemPriceChangeSummaryResponse.setItemSource(t.get(2, String.class));
+                itemPriceChangeSummaryResponse.setItemUrl(t.get(3, String.class));
+                tmpMinList.add(itemPriceChangeSummaryResponse);
 
             }
+            itemPriceChangeSummaryResponseDto.setMinPriceItem(tmpMinList);
 
 
         } else if (pricePeriod.equals("1m")) {
-            LocalDate end = date.minusMonths(one);
+            LocalDate end = date.minusMonths(6 * one);
 
-            for (int i = 0; i <= 5; i++) {
+            List<Tuple> tupleListMax = findByItemDateBetweenMax(itemId, start, end);
+            List<Tuple> tupleListAvg = findByItemDateBetweenAgg(itemId, start, end);
+            List<Tuple> tupleListMin = findByItemDateBetweenMin(itemId, start, end);
 
-                List<Tuple> tupleList = findByItemDateBetweenAgg(itemId, start, end);
-                List<ItemPriceChangeSummaryResponse> tmpList = new ArrayList<>();
+            List<ItemPriceChangeSummaryResponse> tmpMaxList = new ArrayList<>();
+            for (Tuple t : tupleListMax) {
+                ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
+                itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
+                itemPriceChangeSummaryResponse.setItemPrice(t.get(1, Long.class));
+                itemPriceChangeSummaryResponse.setItemSource(t.get(2, String.class));
+                itemPriceChangeSummaryResponse.setItemUrl(t.get(3, String.class));
+                tmpMaxList.add(itemPriceChangeSummaryResponse);
+            }
+            itemPriceChangeSummaryResponseDto.setMaxPriceItem(tmpMaxList);
 
-                for (Tuple t : tupleList) {
-                    ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
-                    itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
-                    itemPriceChangeSummaryResponse.setItemMinPrice(t.get(1, long.class));
-                    itemPriceChangeSummaryResponse.setItemAvgPrice(t.get(2, long.class));
-                    itemPriceChangeSummaryResponse.setItemMaxPrice(t.get(3, long.class));
-                    itemPriceChangeSummaryResponse.setItemSource(t.get(4, String.class));
-                    itemPriceChangeSummaryResponse.setItemUrl(t.get(5, String.class));
-                    itemPriceChangeSummaryResponse.setItemDate(start);
+            List<ItemPriceChangeSummaryResponse> tmpAvgList = new ArrayList<>();
 
-                    tmpList.add(itemPriceChangeSummaryResponse);
-                }
-
-                resultList.add(tmpList);
-
-                start = end;
-                end = end.minusMonths(one);
+            List<ItemPriceChangeSummaryResponse> tmpMinList = new ArrayList<>();
+            for (Tuple t : tupleListMin) {
+                ItemPriceChangeSummaryResponse itemPriceChangeSummaryResponse = new ItemPriceChangeSummaryResponse();
+                itemPriceChangeSummaryResponse.setItemState(t.get(0, String.class));
+                itemPriceChangeSummaryResponse.setItemPrice(t.get(1, Long.class));
+                itemPriceChangeSummaryResponse.setItemSource(t.get(2, String.class));
+                itemPriceChangeSummaryResponse.setItemUrl(t.get(3, String.class));
+                tmpMinList.add(itemPriceChangeSummaryResponse);
 
             }
+            itemPriceChangeSummaryResponseDto.setMinPriceItem(tmpMinList);
+
         }
 
-        return resultList;
+        return itemPriceChangeSummaryResponseDto;
     }
 }
