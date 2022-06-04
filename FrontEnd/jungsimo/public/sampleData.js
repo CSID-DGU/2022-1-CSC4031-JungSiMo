@@ -60,6 +60,24 @@ const chartAvg = {
 	chartY: [760000, 755400, 740000, 765000, 760000, 765300],
 };
 
+const page3Sample = {
+	itemId: 6,
+	categoryId: 4,
+	itemImage:
+		"https://shopping-phinf.pstatic.net/main_2941245/29412453621.20211028154519.jpg?type=f640",
+	bluetoothVersion: "블루투스5.2",
+	shape: "커널형",
+	channel: "스테레오",
+	purpose: "통화+음악",
+	soundQualityFirst: "액티브노이즈캔슬링",
+	soundQualitySecond: "공간음향",
+	operationFunc: "터치버튼",
+	waterproof: "생활방수(IPX4)",
+	microphoneYn: "마이크있음",
+	usageTime: "3.5시간",
+	terminal: "라이트닝",
+};
+
 export {
 	category1,
 	category2,
@@ -69,4 +87,5 @@ export {
 	chartSmall,
 	chartAvg,
 	labels,
+	page3Sample,
 };

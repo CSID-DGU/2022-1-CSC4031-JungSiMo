@@ -8,8 +8,11 @@ import { useEffect } from "react";
 import Link from "next/link";
 import giveCoffee from "../assets/images/give_coffee.svg";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const Home = (props) => {
+	const [cookies, setCookies] = useCookies(["jungsimo"]);
+
 	const [isSelectOpen1, setIsSelectOpen1] = useState(false);
 	const [isSelectOpen2, setIsSelectOpen2] = useState(false);
 	const [name1, setName1] = useState("제품을 선택하세요");
@@ -26,16 +29,19 @@ const Home = (props) => {
 			.post("http://localhost:8080/api/v1/search/brand", selectCategoryName)
 			.then((response) => {
 				setName1(selectCategoryName.categoryName);
+				setCookies("product", selectCategoryName.categoryName);
 				setCategoryDetails(response.data);
 			});
 	};
 
 	const clickSelect2 = (e) => {
 		setName2(e.currentTarget.textContent);
+		setCookies("brand", e.currentTarget.textContent);
 	};
 
 	useEffect(() => {
 		setName2("브랜드를 선택하세요");
+		console.log(cookies);
 	}, [name1]);
 
 	return (
@@ -103,7 +109,7 @@ const Home = (props) => {
 					<span className="mr-4">{name2}</span>
 					<Image src={arrowB} alt="셀렉트열기" className="w-[10px] h-[6px]" />
 					{isSelectOpen2 && (
-						<div className="z-[100] absolute flex flex-col overflow-scroll mx-auto top-[43px] border border-gray-400 w-[200px] rounded-br-lg rounded-bl-lg bg-white">
+						<div className="z-[99] absolute flex flex-col overflow-scroll mx-auto top-[43px] border border-gray-400 w-[200px] rounded-br-lg rounded-bl-lg bg-white">
 							{categoryDetails?.map((name, index) => {
 								return (
 									<div
@@ -124,7 +130,6 @@ const Home = (props) => {
 			<Link
 				href={{
 					pathname: "/search",
-					query: { categoryName: name1, itemBrand: name2 },
 				}}
 			>
 				<button className="rounded-lg bg-blue-500 text-white flex items-center justify-center w-[200px] h-[45px] mt-4 mx-auto">
