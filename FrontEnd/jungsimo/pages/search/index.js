@@ -11,6 +11,18 @@ const SearchShow = () => {
 
 	const [items, setItems] = useState(null);
 
+	const [screen, setScreen] = useState({
+		product: null,
+		brand: null,
+	});
+
+	useEffect(() => {
+		setScreen({
+			product: cookies["product"],
+			brand: cookies["brand"],
+		});
+	}, []);
+
 	const searchRef = useRef();
 
 	useEffect(() => {
@@ -57,7 +69,7 @@ const SearchShow = () => {
 		<Layout>
 			<div className="flex flex-col mt-[60px]">
 				<span className="mx-[15px] text-xs">
-					검색 조건 : {cookies["product"]} / {cookies["brand"]}
+					검색 조건 : {screen?.product} / {screen?.brand}
 				</span>
 				<div className="flex h-[45px] mt-[5px]">
 					<input

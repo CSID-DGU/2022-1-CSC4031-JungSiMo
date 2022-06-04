@@ -42,6 +42,20 @@ const ResultShow = () => {
 
 	const [labels, setLabels] = useState([]);
 
+	const [screen, setScreen] = useState({
+		itemId: null,
+		categoryId: null,
+		itemName: null,
+	});
+
+	useEffect(() => {
+		setScreen({
+			itemId: cookies["itemId"],
+			categoryId: cookies["categoryId"],
+			itemName: cookies["itemName"],
+		});
+	}, []);
+
 	useEffect(() => {
 		console.log(cookies["itemId"]);
 		console.log(cookies["categoryId"]);
@@ -183,7 +197,7 @@ const ResultShow = () => {
 		<Layout>
 			<div className="flex mt-[30px] px-[15px]">
 				<div className="flex flex-col shrink-0">
-					<span className="text-xl font-bold">{cookies["itemName"]}</span>
+					<span className="text-xl font-bold">{screen?.itemName}</span>
 					<Image src={`${page3Sample.itemImage}`} width={128} height={128} />
 				</div>
 				<div className="grid justify-center grid-cols-4 ml-4 text-sm">
