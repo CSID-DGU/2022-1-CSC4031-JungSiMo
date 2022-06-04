@@ -227,6 +227,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                         itemInfo.itemSource,
                         itemInfo.itemUrl
                 )
+                .where(builder)
                 .groupBy(itemInfo.itemState)
                 .orderBy(itemInfo.itemState.asc())
                 .fetch();
@@ -246,6 +247,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                         itemInfo.itemSource,
                         itemInfo.itemUrl
                 )
+                .where(builder)
                 .groupBy(itemInfo.itemState)
                 .orderBy(itemInfo.itemState.asc())
                 .fetch();
