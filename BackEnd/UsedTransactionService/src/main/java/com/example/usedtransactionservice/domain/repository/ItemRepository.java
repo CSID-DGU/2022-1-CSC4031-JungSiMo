@@ -26,6 +26,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByCategoryIdAndItemBrand(Long categoryId, String itemBrand);
 
     @Query("select i from Item i where i.categoryId = :categoryId and i.itemBrand = :itemBrand and i.itemName like %:keyword%")
-    Optional<Item> findByItemKeyword(@Param("categoryId") Long categoryId, @Param("itemBrand") String itemBrand, @Param("keyword") String keyword);
+    List<Item> findByItemKeyword(@Param("categoryId") Long categoryId, @Param("itemBrand") String itemBrand, @Param("keyword") String keyword);
 
 }
