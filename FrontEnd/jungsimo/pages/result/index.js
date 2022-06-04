@@ -1,14 +1,6 @@
 import Layout from "../layout";
-import sample1 from "../../assets/images/phone_sample.png";
 import Image from "next/image";
 import "swiper/css";
-import {
-	product,
-	chartBig,
-	chartSmall,
-	chartAvg,
-	labels as chartLabel,
-} from "../../public/sampleData";
 import React from "react";
 import {
 	Chart as ChartJS,
@@ -25,8 +17,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import { page3Sample } from "../../public/sampleData";
-import { values, omit, reverse, filter } from "lodash";
+import { values, omit, reverse, filter, isNull } from "lodash";
+import noImage from "../../assets/images/noImage.png";
 
 const ResultShow = () => {
 	const [cookies, setCookies] = useCookies(["jungsimo"]);
@@ -36,9 +28,13 @@ const ResultShow = () => {
 		itemPricePeriod: "1d",
 	});
 
+	const [priceDetail, setPriceDetail] = useState({});
+
 	const [priceBig, setPriceBig] = useState([]);
 	const [priceAvg, setPriceAvg] = useState([]);
 	const [priceSmall, setPriceSmall] = useState([]);
+
+	const [priceUrls, setPriceUrls] = useState({});
 
 	const [labels, setLabels] = useState([]);
 
@@ -57,19 +53,15 @@ const ResultShow = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log(cookies["itemId"]);
-		console.log(cookies["categoryId"]);
 		axios
-			.post("https://localhost:8080/api/v1/detail/info", {
-				// itemId: cookies["itemId"],
-				// categoryId: cookies["categoryId"],
-				itemId: "6",
-				categoryId: "4",
+			.post("http://localhost:8080/api/v1/detail/info", {
+				itemId: screen?.itemId,
+				categoryId: screen?.categoryId,
 			})
 			.then((response) => {
-				console.log(response);
+				setPriceDetail(response?.data);
 			});
-	}, []);
+	}, [screen]);
 
 	useEffect(() => {
 		setLabels([]);
@@ -79,7 +71,6 @@ const ResultShow = () => {
 		axios
 			.post("http://localhost:8080/api/v1/detail/price/change", priceParams)
 			.then((response) => {
-				console.log(response?.data);
 				reverse(response?.data).map((res) => {
 					if (res?.length !== 0) {
 						setLabels((labels) => [...labels, res[0]?.itemDate]);
@@ -91,7 +82,7 @@ const ResultShow = () => {
 						if (filterdBig?.length === 1) {
 							setPriceBig((priceBig) => [...priceBig, filterdBig[0].itemPrice]);
 						} else {
-							setPriceBig((priceAvg) => [...priceAvg, null]);
+							setPriceBig((priceAvg) => [...priceAvg, 0]);
 						}
 
 						let filterdAvg = filter(res, (r) => {
@@ -101,7 +92,7 @@ const ResultShow = () => {
 						if (filterdAvg?.length === 1) {
 							setPriceAvg((priceAvg) => [...priceAvg, filterdAvg[0].itemPrice]);
 						} else {
-							setPriceAvg((priceAvg) => [...priceAvg, null]);
+							setPriceAvg((priceAvg) => [...priceAvg, 0]);
 						}
 
 						let filterdSmall = filter(res, (r) => {
@@ -114,17 +105,26 @@ const ResultShow = () => {
 								filterdSmall[0].itemPrice,
 							]);
 						} else {
-							setPriceSmall((priceSmall) => [...priceSmall, null]);
+							setPriceSmall((priceSmall) => [...priceSmall, 0]);
 						}
+					} else {
+						setLabels((labels) => [...labels, null]);
+						setPriceBig((priceBig) => [...priceBig, null]);
+						setPriceAvg((priceAvg) => [...priceAvg, null]);
+						setPriceSmall((priceSmall) => [...priceSmall, null]);
 					}
 				});
 			});
-	}, [priceParams]);
 
-	console.log(priceBig);
-	console.log(priceAvg);
-	console.log(priceSmall);
-	console.log(labels);
+		axios
+			.post("http://localhost:8080/api/v1/detail/price/summary", {
+				itemId: priceParams?.itemId,
+				itemPricePeriod: priceParams?.itemPricePeriod,
+			})
+			.then((response) => {
+				setPriceUrls(response?.data);
+			});
+	}, [priceParams]);
 
 	ChartJS.register(
 		CategoryScale,
@@ -170,21 +170,21 @@ const ResultShow = () => {
 		labels,
 		datasets: [
 			{
-				label: "최고가",
+				label: "상태 상",
 				data: priceBig,
 				borderColor: "rgb(255, 99, 132)",
 				backgroundColor: "#323ea8",
 				yAxisID: "y",
 			},
 			{
-				label: "평균가",
+				label: "상태 중",
 				data: priceAvg,
 				borderColor: "rgb(255, 99, 132)",
 				backgroundColor: "#32a84a",
 				yAxisID: "y",
 			},
 			{
-				label: "최저가",
+				label: "상태 하",
 				data: priceSmall,
 				borderColor: "rgb(255, 99, 132)",
 				backgroundColor: "#ebde31",
@@ -198,87 +198,114 @@ const ResultShow = () => {
 			<div className="flex mt-[30px] px-[15px]">
 				<div className="flex flex-col shrink-0">
 					<span className="text-xl font-bold">{screen?.itemName}</span>
-					<Image src={`${page3Sample.itemImage}`} width={128} height={128} />
+					<Image
+						src={priceDetail?.itemImage || noImage}
+						width={128}
+						height={128}
+					/>
 				</div>
-				<div className="grid justify-center grid-cols-4 ml-4 text-sm">
-					{values(omit(page3Sample, ["itemId", "categoryId", "itemImage"])).map(
+				<div className="grid justify-center grid-cols-3 gap-2 ml-4 text-sm">
+					{values(omit(priceDetail, ["itemId", "categoryId", "itemImage"])).map(
 						(value, index) => {
-							return <span key={`option_${index}`}>{value}</span>;
+							return <span key={`option_${index}`} className="flex items-center justify-center text-center break-all bg-slate-100">{value}</span>;
 						}
 					)}
 				</div>
 			</div>
-			<select
-				onChange={(e) => {
-					setPriceParams({
-						...priceParams,
-						itemPricePeriod: e.currentTarget.value,
-					});
-				}}
-			>
-				<option value="1d">일</option>
-				<option value="1w">주</option>
-				<option value="1m">월</option>
-			</select>
+			<div className="w-full mt-4 text-center">
+				<select
+					className="mx-auto"
+					onChange={(e) => {
+						setPriceParams({
+							...priceParams,
+							itemPricePeriod: e.currentTarget.value,
+						});
+					}}
+				>
+					<option value="1d">일</option>
+					<option value="1w">주</option>
+					<option value="1m">월</option>
+				</select>
+			</div>
 			<Line options={options} data={data} />
-			<div className="flex flex-col px-[15px] mt-8">
-				<span className="text-sm font-bold">최고가격</span>
-				<Link href="https://www.daangn.com/articles/387422498">
-					<div className="flex mt-2 text-sm">
-						<span className="w-[20%] shrink-0">50,000</span>
-						<span className="w-[20%] shirnk-0">당근마켓</span>
-						<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
+			{priceUrls?.maxPriceItem?.length !== 0 &&
+				!isNull(priceUrls?.maxPriceItem) && (
+					<div className="flex flex-col px-[15px] mt-8">
+						<span className="font-bold text">최고 가격</span>
+
+						<div className="flex mt-2 text-sm">
+							<span className="w-[20%] shrink-0 font-bold">가격</span>
+							<span className="w-[20%] shrink-0 font-bold">상태</span>
+							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
+							<span className="font-bold truncate">제목</span>
+						</div>
+
+						{priceUrls?.maxPriceItem?.map((item, index) => {
+							return (
+								<Link href={item?.itemUrl} key={`maxPrice${index}`}>
+									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
+										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
+										<span className="w-[20%] shrink-0">{item?.itemState}</span>
+										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
+										<span className="truncate">제목이 아직 없어요</span>
+									</div>
+								</Link>
+							);
+						})}
 					</div>
-				</Link>
-				<div className="flex mt-2 text-sm">
-					<span className="w-[20%] shrink-0">50,000</span>
-					<span className="w-[20%] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-				<div className="flex mt-2 text-sm">
-					<span className="w-[20%] shrink-0">50,000</span>
-					<span className="w-[20%] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-			</div>
+				)}
 
-			<div className="flex flex-col px-[15px] mt-8">
-				<span className="text-sm font-bold">평균가격</span>
-				<div className="flex mt-2 text-sm">
-					<span className="w-[20%] shrink-0">50,000</span>
-					<span className="w-[20%] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-				<div className="flex mt-2 text-sm">
-					<span className="w-[20%] shrink-0">50,000</span>
-					<span className="w-[20%] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-				<div className="flex mt-2 text-sm">
-					<span className="w-[20%] shrink-0">50,000</span>
-					<span className="w-[20%] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-			</div>
+			{priceUrls?.avgPriceItem?.length !== 0 &&
+				!isNull(priceUrls?.avgPriceItem) && (
+					<div className="flex flex-col px-[15px] mt-8">
+						<span className="font-bold">평균 가격</span>
+						<div className="flex mt-2 text-sm">
+							<span className="w-[20%] shrink-0 font-bold">가격</span>
+							<span className="w-[20%] shrink-0 font-bold">상태</span>
+							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
+							<span className="font-bold truncate">제목</span>
+						</div>
 
-			<div className="flex flex-col px-[15px] mt-8">
-				<span className="text-sm font-bold">최저가격</span>
-				<div className="flex mt-2 text-sm">
-					<span className="w-[20%] shrink-0">50,000</span>
-					<span className="w-[20%] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-				<div className="flex mt-2 text-sm">
-					<span className="w-[20%] shrink-0">50,000</span>
-					<span className="w-[20%] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-				<div className="flex mt-2 text-sm">
-					<span className="w-[20%] shrink-0">50,000</span>
-					<span className="w-[20%] shirnk-0">당근마켓</span>
-					<span className="truncate">LG그램 / LG GRAM / 오만원에 adfsda</span>
-				</div>
-			</div>
+						{priceUrls?.avgPriceItem?.map((item, index) => {
+							return (
+								<Link href={item?.itemUrl} key={`avgPrice${index}`}>
+									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
+										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
+										<span className="w-[20%] shrink-0">{item?.itemState}</span>
+										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
+										<span className="truncate">제목이 아직 없어요</span>
+									</div>
+								</Link>
+							);
+						})}
+					</div>
+				)}
+
+			{priceUrls?.minPriceItem?.length !== 0 &&
+				!isNull(priceUrls?.minPriceItem) && (
+					<div className="flex flex-col px-[15px] mt-8">
+						<span className="font-bold">최저 가격</span>
+						<div className="flex mt-2 text-sm">
+							<span className="w-[20%] shrink-0 font-bold">가격</span>
+							<span className="w-[20%] shrink-0 font-bold">상태</span>
+							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
+							<span className="font-bold truncate">제목</span>
+						</div>
+
+						{priceUrls?.minPriceItem?.map((item, index) => {
+							return (
+								<Link href={item?.itemUrl} key={`minPrice${index}`}>
+									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
+										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
+										<span className="w-[20%] shrink-0">{item?.itemState}</span>
+										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
+										<span className="truncate">제목이 아직 없어요</span>
+									</div>
+								</Link>
+							);
+						})}
+					</div>
+				)}
 		</Layout>
 	);
 };
