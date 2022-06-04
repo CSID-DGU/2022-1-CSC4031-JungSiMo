@@ -11,13 +11,7 @@ public class ItemPriceChangeSummaryResponse {
 
     private String itemState;
 
-    private LocalDate itemDate;
-
-    private long itemMinPrice;
-
-    private long itemAvgPrice;
-
-    private long itemMaxPrice;
+    private long itemPrice;
 
     private String itemSource;
 
