@@ -13,6 +13,8 @@ public class ItemPriceChangeSummaryResponse {
 
     private long itemPrice;
 
+    private String itemTitle;
+
     private String itemSource;
 
     private String itemUrl;
