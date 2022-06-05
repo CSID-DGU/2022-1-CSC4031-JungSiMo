@@ -207,7 +207,14 @@ const ResultShow = () => {
 				<div className="grid justify-center grid-cols-3 gap-2 ml-4 text-sm">
 					{values(omit(priceDetail, ["itemId", "categoryId", "itemImage"])).map(
 						(value, index) => {
-							return <span key={`option_${index}`} className="flex items-center justify-center text-center break-all bg-slate-100">{value}</span>;
+							return (
+								<span
+									key={`option_${index}`}
+									className="flex items-center justify-center text-center break-all bg-slate-100"
+								>
+									{value}
+								</span>
+							);
 						}
 					)}
 				</div>
@@ -247,7 +254,7 @@ const ResultShow = () => {
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
 										<span className="w-[20%] shrink-0">{item?.itemState}</span>
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
-										<span className="truncate">제목이 아직 없어요</span>
+										<span className="truncate">{item?.itemTitle}</span>
 									</div>
 								</Link>
 							);
@@ -273,7 +280,7 @@ const ResultShow = () => {
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
 										<span className="w-[20%] shrink-0">{item?.itemState}</span>
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
-										<span className="truncate">제목이 아직 없어요</span>
+										<span className="truncate">{item?.itemTitle}</span>
 									</div>
 								</Link>
 							);
@@ -299,7 +306,7 @@ const ResultShow = () => {
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
 										<span className="w-[20%] shrink-0">{item?.itemState}</span>
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
-										<span className="truncate">제목이 아직 없어요</span>
+										<span className="truncate">{item?.itemTitle}</span>
 									</div>
 								</Link>
 							);
