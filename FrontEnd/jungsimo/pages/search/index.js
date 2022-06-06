@@ -30,14 +30,10 @@ const SearchShow = () => {
 			})
 			.then((response) => {
 				setItems(response?.data);
-				console.log(response?.data);
 			});
 	}, []);
 
 	const searchItems = () => {
-		console.log(cookies["product"]);
-		console.log(cookies["brand"]);
-		console.log(searchRef.current.value);
 		axios
 			.post("http://localhost:8080/api/v1/search/item/keyword", {
 				categoryName: cookies["product"],
@@ -45,16 +41,11 @@ const SearchShow = () => {
 				keyword: searchRef.current.value,
 			})
 			.then((response) => {
-				console.log(response?.data);
-			})
-			.catch((error) => {
-				console.log("실패");
+				setItems(response?.data);
 			});
 	};
 
 	const clickItemDetail = (itemId, categoryId, itemName) => {
-		// console.log(itemId);
-		// console.log(categoryId);
 		setCookies("itemId", itemId);
 		setCookies("categoryId", categoryId);
 		setCookies("itemName", itemName);
