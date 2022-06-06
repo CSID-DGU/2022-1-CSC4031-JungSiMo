@@ -27,12 +27,15 @@ public class DetailService {
     private final SmartphoneDetailInfoRepository smartphoneDetailInfoRepository;
     private final EarphoneDetailInfoRepository earphoneDetailInfoRepository;
     private final WatchDetailInfoRepository watchDetailInfoRepository;
+    private final NotebookDetailInfoRepository notebookDetailInfoRepository;
 
     // TODO 상품 상세 정보 조회
     // category 1 : 노트북 / 2 : 태블릿 / 3 : 스마트폰 / 4 : 이어폰 / 5 : 스마트워치
     public ResponseEntity detailInfo(Long itemId, Long categoryId) {
         ResponseEntity resultResponseEntity = null;
         if (categoryId == 1) {   // 노트북
+            Optional<NotebookDetailInfo> notebookDetailInfo = notebookDetailInfoRepository.findByItemId(itemId);
+            resultResponseEntity = new ResponseEntity(notebookDetailInfo, HttpStatus.OK);
 
         } else if (categoryId == 2) {   // 태블릿
             Optional<TabletDetailInfo> tabletDetailInfo = tabletDetailInfoRepository.findByItemId(itemId);
@@ -57,7 +60,7 @@ public class DetailService {
 
     // TODO 상품 가격 변동 조회 - start : 이전 날짜 / end : 최근 날짜
     public ResponseEntity priceChangeInfo(Long itemId, String itemPricePeriod) {
-        ResponseEntity resultResponseEntity = null;
+        
         List<List<ItemPriceChangeResponse>> list = itemInfoRepository.priceChangeInfo(itemId, itemPricePeriod);
 
         return new ResponseEntity(list, HttpStatus.OK);
@@ -65,7 +68,7 @@ public class DetailService {
 
     // TODO 상품 가격 변동 요약 정보 조회(최고가/평균가/최저가)
     public ResponseEntity priceChangeSummaryInfo(Long itemId, String itemPricePeriod) {
-        ResponseEntity resultResponseEntity = null;
+
         ItemPriceChangeSummaryResponseDto list = itemInfoRepository.priceChangeSummaryInfo(itemId, itemPricePeriod);
 
         return new ResponseEntity(list, HttpStatus.OK);

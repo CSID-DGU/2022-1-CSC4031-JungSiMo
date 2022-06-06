@@ -10,7 +10,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "smartphone_detail_info")
 @Entity
-//@IdClass(DetailInfoPK.class)
 public class SmartphoneDetailInfo {
 
     @Id
