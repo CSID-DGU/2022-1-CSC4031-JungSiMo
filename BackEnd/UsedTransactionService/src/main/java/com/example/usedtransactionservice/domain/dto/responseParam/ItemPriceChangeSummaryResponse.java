@@ -19,4 +19,6 @@ public class ItemPriceChangeSummaryResponse {
 
     private String itemUrl;
 
+    private String itemTransState;
+
 }

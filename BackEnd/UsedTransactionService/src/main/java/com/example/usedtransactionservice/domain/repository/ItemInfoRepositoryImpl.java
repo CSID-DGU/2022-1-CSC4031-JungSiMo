@@ -182,7 +182,8 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                         itemInfo.itemPrice.min(),
                         itemInfo.itemTitle,
                         itemInfo.itemSource,
-                        itemInfo.itemUrl
+                        itemInfo.itemUrl,
+                        itemInfo.itemTransState
                 )
                 .where(builder)
                 .groupBy(itemInfo.itemState)
@@ -191,19 +192,22 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
 
     }
 
-    // TODO 평균가 요약 정보
+    // TODO 평균가 요약 정보 - 평균과 차이가 가장 작은 값 중 하나만
     public List<Tuple> indByItemDateBetweenAvg(Long itemId, LocalDate start, LocalDate end) {
         QItemInfo itemInfo = QItemInfo.itemInfo;
 
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(itemInfo.itemId.eq(itemId));
         builder.and(itemInfo.itemDate.between(end, start));
+//        builder.and(itemInfo.itemPrice.eq(itemInfo.itemPrice.avg().longValue()));
+
         return jpaQueryFactory.from(itemInfo)
                 .select(itemInfo.itemState,
                         itemInfo.itemPrice.avg(),
                         itemInfo.itemTitle,
                         itemInfo.itemSource,
-                        itemInfo.itemUrl
+                        itemInfo.itemUrl,
+                        itemInfo.itemTransState
                 )
                 .where(builder)
                 .groupBy(itemInfo.itemState)
@@ -224,7 +228,8 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                         itemInfo.itemPrice.max(),
                         itemInfo.itemTitle,
                         itemInfo.itemSource,
-                        itemInfo.itemUrl
+                        itemInfo.itemUrl,
+                        itemInfo.itemTransState
                 )
                 .where(builder)
                 .groupBy(itemInfo.itemState)
@@ -245,7 +250,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
             LocalDate end = date.minusDays(6 * one);
 
             List<Tuple> tupleListMax = findByItemDateBetweenMax(itemId, start, end);
-            List<Tuple> tupleListAvg = indByItemDateBetweenAvg(itemId, start, end);
+//            List<Tuple> tupleListAvg = indByItemDateBetweenAvg(itemId, start, end);
             List<Tuple> tupleListMin = findByItemDateBetweenMin(itemId, start, end);
 
             List<ItemPriceChangeSummaryResponse> tmpMaxList = new ArrayList<>();
@@ -256,6 +261,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                 itemPriceChangeSummaryResponse.setItemTitle(t.get(2, String.class));
                 itemPriceChangeSummaryResponse.setItemSource(t.get(3, String.class));
                 itemPriceChangeSummaryResponse.setItemUrl(t.get(4, String.class));
+                itemPriceChangeSummaryResponse.setItemTransState(t.get(5, String.class));
                 tmpMaxList.add(itemPriceChangeSummaryResponse);
             }
             itemPriceChangeSummaryResponseDto.setMaxPriceItem(tmpMaxList);
@@ -270,6 +276,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                 itemPriceChangeSummaryResponse.setItemTitle(t.get(2, String.class));
                 itemPriceChangeSummaryResponse.setItemSource(t.get(3, String.class));
                 itemPriceChangeSummaryResponse.setItemUrl(t.get(4, String.class));
+                itemPriceChangeSummaryResponse.setItemTransState(t.get(5, String.class));
                 tmpMinList.add(itemPriceChangeSummaryResponse);
 
             }
@@ -280,7 +287,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
             LocalDate end = date.minusWeeks(6 * one);
 
             List<Tuple> tupleListMax = findByItemDateBetweenMax(itemId, start, end);
-            List<Tuple> tupleListAvg = indByItemDateBetweenAvg(itemId, start, end);
+//            List<Tuple> tupleListAvg = indByItemDateBetweenAvg(itemId, start, end);
             List<Tuple> tupleListMin = findByItemDateBetweenMin(itemId, start, end);
 
             List<ItemPriceChangeSummaryResponse> tmpMaxList = new ArrayList<>();
@@ -291,6 +298,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                 itemPriceChangeSummaryResponse.setItemTitle(t.get(2, String.class));
                 itemPriceChangeSummaryResponse.setItemSource(t.get(3, String.class));
                 itemPriceChangeSummaryResponse.setItemUrl(t.get(4, String.class));
+                itemPriceChangeSummaryResponse.setItemTransState(t.get(5, String.class));
                 tmpMaxList.add(itemPriceChangeSummaryResponse);
             }
             itemPriceChangeSummaryResponseDto.setMaxPriceItem(tmpMaxList);
@@ -305,6 +313,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                 itemPriceChangeSummaryResponse.setItemTitle(t.get(2, String.class));
                 itemPriceChangeSummaryResponse.setItemSource(t.get(3, String.class));
                 itemPriceChangeSummaryResponse.setItemUrl(t.get(4, String.class));
+                itemPriceChangeSummaryResponse.setItemTransState(t.get(5, String.class));
                 tmpMinList.add(itemPriceChangeSummaryResponse);
 
             }
@@ -315,7 +324,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
             LocalDate end = date.minusMonths(6 * one);
 
             List<Tuple> tupleListMax = findByItemDateBetweenMax(itemId, start, end);
-            List<Tuple> tupleListAvg = indByItemDateBetweenAvg(itemId, start, end);
+//            List<Tuple> tupleListAvg = indByItemDateBetweenAvg(itemId, start, end);
             List<Tuple> tupleListMin = findByItemDateBetweenMin(itemId, start, end);
 
             List<ItemPriceChangeSummaryResponse> tmpMaxList = new ArrayList<>();
@@ -326,6 +335,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                 itemPriceChangeSummaryResponse.setItemTitle(t.get(2, String.class));
                 itemPriceChangeSummaryResponse.setItemSource(t.get(3, String.class));
                 itemPriceChangeSummaryResponse.setItemUrl(t.get(4, String.class));
+                itemPriceChangeSummaryResponse.setItemTransState(t.get(5, String.class));
                 tmpMaxList.add(itemPriceChangeSummaryResponse);
             }
             itemPriceChangeSummaryResponseDto.setMaxPriceItem(tmpMaxList);
@@ -340,6 +350,7 @@ public class ItemInfoRepositoryImpl implements ItemInfoCustomRepository {
                 itemPriceChangeSummaryResponse.setItemTitle(t.get(2, String.class));
                 itemPriceChangeSummaryResponse.setItemSource(t.get(3, String.class));
                 itemPriceChangeSummaryResponse.setItemUrl(t.get(4, String.class));
+                itemPriceChangeSummaryResponse.setItemTransState(t.get(5, String.class));
                 tmpMinList.add(itemPriceChangeSummaryResponse);
 
             }

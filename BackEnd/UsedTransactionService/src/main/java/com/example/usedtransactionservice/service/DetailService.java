@@ -60,7 +60,7 @@ public class DetailService {
 
     // TODO 상품 가격 변동 조회 - start : 이전 날짜 / end : 최근 날짜
     public ResponseEntity priceChangeInfo(Long itemId, String itemPricePeriod) {
-        
+
         List<List<ItemPriceChangeResponse>> list = itemInfoRepository.priceChangeInfo(itemId, itemPricePeriod);
 
         return new ResponseEntity(list, HttpStatus.OK);
