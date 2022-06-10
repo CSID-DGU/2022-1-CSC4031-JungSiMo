@@ -79,8 +79,6 @@ const SearchShow = () => {
 						<thead className="h-[45px]">
 							<tr className="text-white bg-blue-800">
 								<td className="text-left pl-[15px]">이름</td>
-								<td className="text-left">HDD</td>
-								<td className="text-left">RAM</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -100,8 +98,6 @@ const SearchShow = () => {
 										<td className="pl-[15px] overflow-auto">
 											{item?.itemName}
 										</td>
-										<td className="overflow-x-auto">{item?.detail?.hdd}</td>
-										<td className="overflow-x-auto">{item?.detail?.ram}</td>
 									</tr>
 								);
 							})}

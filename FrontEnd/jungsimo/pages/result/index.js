@@ -116,6 +116,10 @@ const ResultShow = () => {
 				});
 			});
 
+		console.log(priceBig);
+		console.log(priceAvg);
+		console.log(priceSmall);
+
 		axios
 			.post("http://localhost:8080/api/v1/detail/price/summary", {
 				itemId: priceParams?.itemId,
@@ -202,6 +206,7 @@ const ResultShow = () => {
 						src={priceDetail?.itemImage || noImage}
 						width={128}
 						height={128}
+						objectFit
 					/>
 				</div>
 				<div className="grid justify-center grid-cols-3 gap-2 ml-4 text-sm">
@@ -242,7 +247,8 @@ const ResultShow = () => {
 
 						<div className="flex mt-2 text-sm">
 							<span className="w-[20%] shrink-0 font-bold">가격</span>
-							<span className="w-[20%] shrink-0 font-bold">상태</span>
+							<span className="w-[10%] shrink-0 font-bold">상태</span>
+							<span className="w-[20%] shrink-0 font-bold">판매현황</span>
 							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
 							<span className="font-bold truncate">제목</span>
 						</div>
@@ -252,7 +258,12 @@ const ResultShow = () => {
 								<Link href={item?.itemUrl} key={`maxPrice${index}`}>
 									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
-										<span className="w-[20%] shrink-0">{item?.itemState}</span>
+										<span className="w-[10%] shrink-0">{item?.itemState}</span>
+										<span className="w-[20%] shrink-0">
+											{item?.itemTransState === "거래완료"
+												? "거래완료"
+												: "판매중"}
+										</span>
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
 										<span className="truncate">{item?.itemTitle}</span>
 									</div>
@@ -268,7 +279,8 @@ const ResultShow = () => {
 						<span className="font-bold">평균 가격</span>
 						<div className="flex mt-2 text-sm">
 							<span className="w-[20%] shrink-0 font-bold">가격</span>
-							<span className="w-[20%] shrink-0 font-bold">상태</span>
+							<span className="w-[10%] shrink-0 font-bold">상태</span>
+							<span className="w-[20%] shrink-0 font-bold">판매현황</span>
 							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
 							<span className="font-bold truncate">제목</span>
 						</div>
@@ -278,7 +290,12 @@ const ResultShow = () => {
 								<Link href={item?.itemUrl} key={`avgPrice${index}`}>
 									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
-										<span className="w-[20%] shrink-0">{item?.itemState}</span>
+										<span className="w-[10%] shrink-0">{item?.itemState}</span>
+										<span className="w-[20%] shrink-0">
+											{item?.itemTransState === "거래완료"
+												? "거래완료"
+												: "판매중"}
+										</span>
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
 										<span className="truncate">{item?.itemTitle}</span>
 									</div>
@@ -294,7 +311,8 @@ const ResultShow = () => {
 						<span className="font-bold">최저 가격</span>
 						<div className="flex mt-2 text-sm">
 							<span className="w-[20%] shrink-0 font-bold">가격</span>
-							<span className="w-[20%] shrink-0 font-bold">상태</span>
+							<span className="w-[10%] shrink-0 font-bold">상태</span>
+							<span className="w-[20%] shrink-0 font-bold">판매현황</span>
 							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
 							<span className="font-bold truncate">제목</span>
 						</div>
@@ -304,7 +322,12 @@ const ResultShow = () => {
 								<Link href={item?.itemUrl} key={`minPrice${index}`}>
 									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
-										<span className="w-[20%] shrink-0">{item?.itemState}</span>
+										<span className="w-[10%] shrink-0">{item?.itemState}</span>
+										<span className="w-[20%] shrink-0">
+											{item?.itemTransState === "거래완료"
+												? "거래완료"
+												: "판매중"}
+										</span>
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
 										<span className="truncate">{item?.itemTitle}</span>
 									</div>
