@@ -248,7 +248,7 @@ const ResultShow = () => {
 						<div className="flex mt-2 text-sm">
 							<span className="w-[20%] shrink-0 font-bold">가격</span>
 							<span className="w-[10%] shrink-0 font-bold">상태</span>
-							<span className="w-[20%] shrink-0 font-bold">판매현황</span>
+
 							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
 							<span className="font-bold truncate">제목</span>
 						</div>
@@ -259,11 +259,7 @@ const ResultShow = () => {
 									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
 										<span className="w-[10%] shrink-0">{item?.itemState}</span>
-										<span className="w-[20%] shrink-0">
-											{item?.itemTransState === "거래완료"
-												? "거래완료"
-												: "판매중"}
-										</span>
+
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
 										<span className="truncate">{item?.itemTitle}</span>
 									</div>
@@ -280,7 +276,7 @@ const ResultShow = () => {
 						<div className="flex mt-2 text-sm">
 							<span className="w-[20%] shrink-0 font-bold">가격</span>
 							<span className="w-[10%] shrink-0 font-bold">상태</span>
-							<span className="w-[20%] shrink-0 font-bold">판매현황</span>
+
 							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
 							<span className="font-bold truncate">제목</span>
 						</div>
@@ -291,11 +287,7 @@ const ResultShow = () => {
 									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
 										<span className="w-[10%] shrink-0">{item?.itemState}</span>
-										<span className="w-[20%] shrink-0">
-											{item?.itemTransState === "거래완료"
-												? "거래완료"
-												: "판매중"}
-										</span>
+
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
 										<span className="truncate">{item?.itemTitle}</span>
 									</div>
@@ -312,7 +304,7 @@ const ResultShow = () => {
 						<div className="flex mt-2 text-sm">
 							<span className="w-[20%] shrink-0 font-bold">가격</span>
 							<span className="w-[10%] shrink-0 font-bold">상태</span>
-							<span className="w-[20%] shrink-0 font-bold">판매현황</span>
+
 							<span className="w-[20%] shirnk-0 font-bold">사이트</span>
 							<span className="font-bold truncate">제목</span>
 						</div>
@@ -323,11 +315,7 @@ const ResultShow = () => {
 									<div className="flex mt-2 text-sm cursor-pointer bg-slate-100">
 										<span className="w-[20%] shrink-0">{item?.itemPrice}</span>
 										<span className="w-[10%] shrink-0">{item?.itemState}</span>
-										<span className="w-[20%] shrink-0">
-											{item?.itemTransState === "거래완료"
-												? "거래완료"
-												: "판매중"}
-										</span>
+
 										<span className="w-[20%] shirnk-0">{item?.itemSource}</span>
 										<span className="truncate">{item?.itemTitle}</span>
 									</div>
