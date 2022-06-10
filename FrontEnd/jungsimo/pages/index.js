@@ -54,7 +54,7 @@ const Home = (props) => {
 								key={`지금뜨는키워드${index}`}
 								className={`text-white  ${
 									index % 2 === 0 ? "bg-blue-500" : "bg-blue-400"
-								} text-sm py-2 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]`}
+								} px-1 text-sm py-2 flex items-center justify-center rounded-[10px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]`}
 							>
 								{keyword}
 							</span>
